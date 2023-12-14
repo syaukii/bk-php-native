@@ -1,5 +1,13 @@
 <?php
 session_start();
+
+$muncul = false;
+$arah = null;
+
+if (isset($_SESSION['login'])) {
+  $muncul = true;
+  $arah = $_SESSION['akses'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,10 +39,18 @@ session_start();
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-  <h1>Ini halaman Utama</h1>
+  <h1>Ini halaman Wellcome</h1>
   <?php
   var_dump($_SESSION)
   ?>
+  <br>
+  
+  <?php if ($muncul) : ?>
+    <a href="pages/<?= $arah ?>">Ke Dashboard</a>
+  <?php else :?>
+    <a href="pages/auth/login.php">Ke halaman login</a><br>
+  <?php endif  ?>
+
   <!-- /.content-wrapper -->
   <?php include "./layouts/footer.php"; ?>
 </div>
