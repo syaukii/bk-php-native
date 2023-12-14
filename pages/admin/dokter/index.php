@@ -1,5 +1,5 @@
 <?php
-include_once("../../../config/conn.php");
+include("../../../config/conn.php");
 session_start();
 
 if (isset($_SESSION['login'])) {
@@ -51,9 +51,9 @@ if ($akses != 'admin') {
 
   <!-- Preloader -->
   <!-- <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../../../dist/Logo.png" alt="AdminLTELogo" height="60" width="60">
-  </div>
-  <?php include "../../../layouts/header.php"?> -->
+    <img class="animation__shake" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/Logo.png" alt="AdminLTELogo" height="60" width="60">
+  </div> -->
+  <?php include "../../../layouts/header.php"?>
   <!-- Content Wrapper. Contains page content -->
 
 
@@ -190,7 +190,7 @@ if ($akses != 'admin') {
                       <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="../../../dist/img/user1-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user1-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       Is this template really for free? That's unbelievable!
@@ -206,7 +206,7 @@ if ($akses != 'admin') {
                       <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="../../../dist/img/user3-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user3-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       You better believe it!
@@ -222,7 +222,7 @@ if ($akses != 'admin') {
                       <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="../../../dist/img/user1-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user1-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       Working with AdminLTE on a great new app! Wanna join?
@@ -238,7 +238,7 @@ if ($akses != 'admin') {
                       <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="../../../dist/img/user3-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user3-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       I would love to.
@@ -255,7 +255,7 @@ if ($akses != 'admin') {
                   <ul class="contacts-list">
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="../../../dist/img/user1-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user1-128x128.jpg" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -270,7 +270,7 @@ if ($akses != 'admin') {
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="../../../dist/img/user7-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user7-128x128.jpg" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -285,7 +285,7 @@ if ($akses != 'admin') {
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="../../../dist/img/user3-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user3-128x128.jpg" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -300,7 +300,7 @@ if ($akses != 'admin') {
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="../../../dist/img/user5-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user5-128x128.jpg" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -315,7 +315,7 @@ if ($akses != 'admin') {
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="../../../dist/img/user6-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user6-128x128.jpg" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -330,7 +330,7 @@ if ($akses != 'admin') {
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="../../../dist/img/user8-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user8-128x128.jpg" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -645,6 +645,6 @@ if ($akses != 'admin') {
   <?php include "../../../layouts/footer.php"; ?>
 </div>
 <!-- ./wrapper -->
-<?php include "../../../layouts/pluginsexport2.php"; ?>
+<?php include "../../../layouts/pluginsexport.php"; ?>
 </body>
 </html>
