@@ -1,3 +1,22 @@
+<?php
+include_once("../../config/conn.php");
+session_start();
+
+if (isset($_SESSION['login'])) {
+  $_SESSION['login'] = true;
+} else {
+  echo "<meta http-equiv='refresh' content='0; url=../auth/login-pasien.php'>";
+  die();
+}
+
+$nama = $_SESSION['username'];
+$akses = $_SESSION['akses'];
+
+if ($akses != 'pasien') {
+  echo "<meta http-equiv='refresh' content='0; url=../..'>";
+  die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +53,6 @@
     <img class="animation__shake" src="../../dist/img/Logo.png" alt="AdminLTELogo" height="60" width="60">
   </div>
   <?php include "../../layouts/header.php"?>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -42,7 +60,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Dashboard <?= ucwords($_SESSION['akses']) ?></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

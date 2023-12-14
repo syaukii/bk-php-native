@@ -48,7 +48,8 @@ if (isset($_SESSION['login'])) {
   <?php if ($muncul) : ?>
     <a href="pages/<?= $arah ?>">Ke Dashboard</a>
   <?php else :?>
-    <a href="pages/auth/login.php">Ke halaman login</a><br>
+    <a href="pages/auth/login.php">Ke halaman login dokter</a><br>
+    <a href="pages/auth/login-pasien.php">Ke halaman login pasien</a><br>
   <?php endif  ?>
 
   <!-- /.content-wrapper -->
