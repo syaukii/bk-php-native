@@ -1,8 +1,9 @@
 <?php
+include_once("../config/conn.php");
+
 session_start();
 
 $_SESSION['login'] = true;
-$_SESSION['user'] = 'dokter'; // INI NANTI GANTI dokter / null
 ?>
 
 <!-- Navbar -->

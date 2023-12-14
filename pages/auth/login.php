@@ -1,3 +1,13 @@
+<?php 
+session_start(); 
+include_once("../../config/conn.php");
+
+if (isset($_SESSION['login'])) {
+  echo "<meta http-equiv='refresh' content='0; url=../..'>";
+  die();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,11 +32,11 @@
       <a href="./index.php" class="h1"><b>Poli</b>klinik</a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Sign in</p>
 
-      <form action="../../index.php" method="post">
+      <form action="" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="text" class="form-control" placeholder="Username | Case Sensitive" name="nama" value="Adi">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -34,13 +44,17 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password | Case Sensitive" name="alamat" value="Semarang">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
+        <?php if (isset($_SESSION['error'])) : ?>
+              <p style="color: red; font-style: italic; margin-bottom: 1rem;"><?php echo $_SESSION['error'];
+                                                                              unset($_SESSION['error']); ?></p>
+        <?php endif ?>
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
@@ -52,15 +66,11 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block" name="submit">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
       </form>
-
-      <p class="mb-0">
-        <a href="register.php" class="text-center">Register a new account</a>
-      </p>
     </div>
     <!-- /.card-body -->
   </div>
@@ -76,3 +86,43 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 </body>
 </html>
+
+<?php
+if (isset($_POST['submit'])) {
+  $username = stripslashes($_POST['nama']);
+  $password = $_POST['alamat'];
+  if ($username == 'admin') {
+    if ($password == 'admin') {
+      $_SESSION['login'] = true;
+      $_SESSION['id'] = null;
+      $_SESSION['username'] = 'admin';
+      $_SESSION['akses'] = 'admin';
+      // echo "<meta http-equiv='refresh' content='0; url=../admin'>";
+      die();
+    }
+  } else {
+    $cek_username = $pdo->prepare("SELECT * FROM dokter WHERE nama = '$username'; ");
+    try{
+        $cek_username->execute();
+        if($cek_username->rowCount()==1){
+            $baris = $cek_username->fetchAll(PDO::FETCH_ASSOC);
+            if($password == $baris[0]['alamat']){
+              $_SESSION['login'] = true;
+              $_SESSION['id'] = $baris[0]['id'];
+              $_SESSION['username'] = $baris[0]['nama'];
+              $_SESSION['akses'] = 'dokter';
+              echo "<meta http-equiv='refresh' content='0; url=../dokter'>";
+              die();
+            }
+        }
+    } catch(PDOException $e){
+      $_SESSION['error'] = $e->getMessage();
+      echo "<meta http-equiv='refresh' content='0;'>";
+      die();
+    }
+  }
+  $_SESSION['error'] = 'Username dan Password Tidak Cocok';
+  echo "<meta http-equiv='refresh' content='0;'>";
+  die();
+}
+?>
