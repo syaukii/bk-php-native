@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +32,9 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
   <h1>Ini halaman Utama</h1>
+  <?php
+  var_dump($_SESSION)
+  ?>
   <!-- /.content-wrapper -->
   <?php include "./layouts/footer.php"; ?>
 </div>

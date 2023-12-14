@@ -97,7 +97,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['id'] = null;
       $_SESSION['username'] = 'admin';
       $_SESSION['akses'] = 'admin';
-      // echo "<meta http-equiv='refresh' content='0; url=../admin'>";
+      echo "<meta http-equiv='refresh' content='0; url=../admin'>";
       die();
     }
   } else {

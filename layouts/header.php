@@ -1,23 +1,18 @@
-<?php
-include_once("../config/conn.php");
-
-session_start();
-
-$_SESSION['login'] = true;
-?>
-
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 <!-- Left navbar links -->
 <ul class="navbar-nav">
     <li class="nav-item">
-    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-    <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Home</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-    <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link">Contact</a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="../auth/destroy.php" class="nav-link">Logout</a>
     </li>
 </ul>
 
@@ -155,7 +150,7 @@ $_SESSION['login'] = true;
         <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
-        <a href="#" class="d-block"><?= $_SESSION['user']=='admin' ? 'Admin' : ($_SESSION['user']=='dokter' ? 'dokter' : 'pasien')?></a>
+        <a href="#" class="d-block"><?= ucwords($_SESSION['username'])?></a>
     </div>
     </div>
 
@@ -164,7 +159,7 @@ $_SESSION['login'] = true;
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
-    <?php if($_SESSION['user'] == 'admin'): ?>
+    <?php if($_SESSION['akses'] == 'admin'): ?>
         <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
@@ -210,7 +205,7 @@ $_SESSION['login'] = true;
             </p>
         </a>
         </li>
-    <?php elseif ($_SESSION['user'] == 'dokter') :?>
+    <?php elseif ($_SESSION['akses'] == 'dokter') :?>
         <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
