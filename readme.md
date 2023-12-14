@@ -72,7 +72,7 @@ Sebagai seorang Dokter, saya ingin mengetahui riwayat pasien yang telah saya per
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah [Bengkel Koding](LICENSE).
+Proyek ini dilisensikan di bawah [Bengkel Koding](https://bengkelkoding.dinus.ac.id/).
 
 ## Pengakuan
 
