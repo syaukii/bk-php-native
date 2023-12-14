@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+$_SESSION['login'] = true;
+$_SESSION['user'] = 'dokter'; // INI NANTI GANTI dokter / null
+?>
+
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 <!-- Left navbar links -->
@@ -47,7 +54,7 @@
         <a href="#" class="dropdown-item">
         <!-- Message Start -->
         <div class="media">
-            <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+            <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
             <div class="media-body">
             <h3 class="dropdown-item-title">
                 Brad Diesel
@@ -63,7 +70,7 @@
         <a href="#" class="dropdown-item">
         <!-- Message Start -->
         <div class="media">
-            <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+            <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
             <div class="media-body">
             <h3 class="dropdown-item-title">
                 John Pierce
@@ -79,7 +86,7 @@
         <a href="#" class="dropdown-item">
         <!-- Message Start -->
         <div class="media">
-            <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+            <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
             <div class="media-body">
             <h3 class="dropdown-item-title">
                 Nora Silvester
@@ -135,7 +142,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 <!-- Brand Logo -->
 <a href="index3.html" class="brand-link">
-    <img src="dist/img/Logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <img src="../../dist/img/Logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">Poliklinik BK</span>
 </a>
 
@@ -144,10 +151,10 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="image">
-        <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
-        <a href="#" class="d-block">User</a>
+        <a href="#" class="d-block"><?= $_SESSION['user']=='admin' ? 'Admin' : ($_SESSION['user']=='dokter' ? 'dokter' : 'pasien')?></a>
     </div>
     </div>
 
@@ -156,6 +163,7 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
+    <?php if($_SESSION['user'] == 'admin'): ?>
         <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
@@ -201,24 +209,7 @@
             </p>
         </a>
         </li>
-        <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-            Dashboard
-            <span class="right badge badge-warning">Pasien</span>
-            </p>
-        </a>
-        </li>
-        <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-hospital"></i>
-            <p>
-            Poli
-            <span class="right badge badge-warning">Pasien</span>
-            </p>
-        </a>
-        </li>
+    <?php elseif ($_SESSION['user'] == 'dokter') :?>
         <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
@@ -264,6 +255,26 @@
             </p>
         </a>
         </li>
+    <?php else : ?>
+        <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+            Dashboard
+            <span class="right badge badge-warning">Pasien</span>
+            </p>
+        </a>
+        </li>
+        <li class="nav-item">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-hospital"></i>
+            <p>
+            Poli
+            <span class="right badge badge-warning">Pasien</span>
+            </p>
+        </a>
+        </li>
+    <?php endif ?>
     </ul>
     </nav>
     <!-- /.sidebar-menu -->
