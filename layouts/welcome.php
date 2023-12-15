@@ -19,14 +19,13 @@
             <div class="container px-5">
                 <a class="navbar-brand" href="">Poliklinik</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
-                    </ul>
-                </div> -->
+                <?php if ($muncul) : ?> 
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/<?= $arah ?>">Dashboard</a></li>
+                        </ul>
+                    </div>
+                <?php endif ?>
             </div>
         </nav>
         <!-- Header-->
@@ -47,6 +46,7 @@
             </div>
         </header>
         <!-- Features section-->
+        <?php if (!$muncul) :?>
         <section class="py-5 border-bottom" id="features">
             <div class="container px-5 my-5">
                 <div class="row gx-5">
@@ -71,8 +71,47 @@
                 </div>
             </div>
         </section>
+        <?php endif ?>
         <!-- Pricing section-->
         <!-- Testimonials section-->
+        <section class="py-5 border-bottom">
+            <div class="container px-5 my-5 px-5">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bolder">Testimoni Pasien</h2>
+                    <p class="lead mb-0">Para Pasien yang Setia</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-6">
+                        <!-- Testimonial 1-->
+                        <div class="card mb-4">
+                            <div class="card-body p-4">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0"><i class="bi bi-chat-right-quote-fill text-primary fs-1"></i></div>
+                                    <div class="ms-4">
+                                        <p class="mb-1">Pelayanan di web ini sangat cepat dan mudah. Detail histori tercatat lengkap,
+                                            termasuk catatan obat. Harga pelayanan terjangkau, Dokter ramah, pokoke mantab pol!</p>
+                                        <div class="small text-muted">- Adi, Semarang</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 2-->
+                        <div class="card">
+                            <div class="card-body p-4">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0"><i class="bi bi-chat-right-quote-fill text-primary fs-1"></i></div>
+                                    <div class="ms-4">
+                                        <p class="mb-1">Aku tidak pernah merasakan mudahnya berobat sebelum Aku mengenal web ini. 
+                                            Web yang mudah digunakan dan dokter yang termapil membuat berobat menjadi lebih menyenangkan!</p>
+                                        <div class="small text-muted">- Ida, Semarang</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- Contact section-->
         <!-- Footer-->
         <footer class="main-footer px-4 py-2">

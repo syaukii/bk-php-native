@@ -13,12 +13,12 @@ if (isset($_SESSION['login'])) {
 <?php
 $title = 'Poliklinik';
 if ($muncul) :
-  ob_start();
+  // ob_start();
   ?>
-  <h1>haloo</h1>
+  <!-- <h1>haloo</h1> -->
   <?php
-  $content = ob_get_clean();
-  include_once './layouts/index.php';
+  // $content = ob_get_clean();
+  include_once './layouts/welcome.php';
 else:
   include_once './layouts/welcome.php';
 endif ?>
