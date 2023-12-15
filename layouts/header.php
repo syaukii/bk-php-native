@@ -1,3 +1,8 @@
+<?php
+$base_admin = "http://". $_SERVER['HTTP_HOST']."/bk-poliklinik/pages/admin";
+$base_pasien = "http://". $_SERVER['HTTP_HOST']."/bk-poliklinik/pages/pasien";
+$base_dokter = "http://". $_SERVER['HTTP_HOST']."/bk-poliklinik/pages/dokter";
+?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -12,7 +17,7 @@
             <a href="#" class="nav-link">Contact</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="../auth/destroy.php" class="nav-link">Logout</a>
+            <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="nav-link">Logout</a>
         </li>
     </ul>
 
@@ -161,7 +166,7 @@
             with font-awesome or any other icon font library -->
                 <?php if ($_SESSION['akses'] == 'admin') : ?>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_admin ?>" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Dashboard
@@ -170,14 +175,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../admin/dokter/index.php" class="nav-link">
+                        <a href="<?= $base_admin.'/dokter' ?>" class="nav-link">
                             <i class="nav-icon fas fa-user-md"></i>
                             <p>Dokter</p>
                             <span class="right badge badge-success">Admin</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_admin.'/pasien' ?>" class="nav-link">
                             <i class="nav-icon fas fa-user-injured"></i>
                             <p>
                                 Pasien
@@ -186,7 +191,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_admin.'/poli' ?>" class="nav-link">
                             <i class="nav-icon fas fa-hospital"></i>
                             <p>
                                 Poli
@@ -195,7 +200,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_admin.'/obat' ?>" class="nav-link">
                             <i class="nav-icon fas fa-pills"></i>
                             <p>
                                 Obat
@@ -205,7 +210,7 @@
                     </li>
                 <?php elseif ($_SESSION['akses'] == 'dokter') : ?>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_dokter ?>" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Dashboard
@@ -214,7 +219,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_dokter . '/jadwal_periksa' ?>" class="nav-link">
                             <i class="nav-icon fas fa-clipboard-list"></i>
                             <p>
                                 Jadwal Periksa
@@ -223,7 +228,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_dokter . '/memeriksa_pasien' ?>" class="nav-link">
                             <i class="nav-icon fas fa-stethoscope"></i>
                             <p>
                                 Memeriksa Pasien
@@ -232,7 +237,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_dokter . '/riwayat_pasien' ?>" class="nav-link">
                             <i class="nav-icon fas fa-notes-medical"></i>
                             <p>
                                 Riwayat Pasien
@@ -241,7 +246,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_dokter . '/profil' ?>" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Profil
@@ -251,7 +256,7 @@
                     </li>
                 <?php else : ?>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_pasien ?>" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Dashboard
@@ -260,7 +265,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="<?= $base_pasien . '/poli' ?>" class="nav-link">
                             <i class="nav-icon fas fa-hospital"></i>
                             <p>
                                 Poli
