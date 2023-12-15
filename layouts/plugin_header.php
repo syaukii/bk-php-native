@@ -11,7 +11,7 @@
   <!-- JQVMap -->
   <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/css/adminlte.min.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->

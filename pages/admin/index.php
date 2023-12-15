@@ -19,6 +19,7 @@ if ($akses != 'admin') {
 ?>
 <?php
 $title = 'Poliklinik | Dokter';
+echo "aaa";
 ob_start();
 ?>
 <div>
