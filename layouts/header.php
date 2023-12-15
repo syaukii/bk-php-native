@@ -16,9 +16,9 @@ $base_dokter = "http://". $_SERVER['HTTP_HOST']."/bk-poliklinik/pages/dokter";
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        <!-- <li class="nav-item d-none d-sm-inline-block">
             <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="nav-link">Logout</a>
-        </li>
+        </li> -->
     </ul>
 
     <!-- Right navbar links -->
@@ -134,6 +134,16 @@ $base_dokter = "http://". $_SERVER['HTTP_HOST']."/bk-poliklinik/pages/dokter";
     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
         <i class="fas fa-expand-arrows-alt"></i>
     </a>
+    </li>
+    <!-- dropdown log out -->
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="dropdown-item">Logout</a>
+        </div>
     </li>
 </ul>
 </nav>
