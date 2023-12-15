@@ -18,8 +18,7 @@ if ($akses != 'admin') {
 }
 ?>
 <?php
-$title = 'Poliklinik | Dokter';
-echo "aaa";
+$title = 'Poliklinik | Dashboard';
 ob_start();
 ?>
 <div>
