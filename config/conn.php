@@ -1,8 +1,9 @@
 <?php
+require __DIR__ . '/url.php';
 $host = 'localhost';
 $dbname = 'bk_poliklinik';
 $username = 'root';
-$password = 'root';
+$password = '';
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
