@@ -50,9 +50,9 @@ if ($akses != 'admin') {
 <div class="wrapper">
 
   <!-- Preloader -->
-  <!-- <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/Logo.png" alt="AdminLTELogo" height="60" width="60">
-  </div> -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/Logo.png" alt="AdminLTELogo" height="60" width="60">
+  </div>
   <?php include "../../../layouts/header.php"?>
   <!-- Content Wrapper. Contains page content -->
 

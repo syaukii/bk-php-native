@@ -9,53 +9,17 @@ if (isset($_SESSION['login'])) {
   $arah = $_SESSION['akses'];
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/jqvmap/jqvmap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/summernote/summernote-bs4.min.css">
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-  <h1>Ini halaman Wellcome</h1>
-  <?php
-  var_dump($_SESSION)
-  ?>
-  <br>
-  
-  <?php if ($muncul) : ?>
-    <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/<?= $arah ?>">Ke Dashboard</a>
-  <?php else :?>
-    <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/login.php">Ke halaman login dokter</a><br>
-    <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/login-pasien.php">Ke halaman login pasien</a><br>
-  <?php endif  ?>
-
-  <!-- /.content-wrapper -->
-  <?php include "./layouts/footer.php"; ?>
-</div>
-<!-- ./wrapper -->
-<?php include "./layouts/pluginsexport.php"; ?>
-</body>
-</html>
+<?php
+$title = 'Poliklinik';
+if ($muncul) :
+ob_start();
+?>
+<?php
+$content = ob_get_clean();
+include './layouts/index.php';
+else:
+?>
+  <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/login.php">Ke halaman login dokter</a><br>
+  <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/login-pasien.php">Ke halaman login pasien</a><br>
+<?php endif; ?>

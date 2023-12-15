@@ -12,7 +12,7 @@
             <a href="#" class="nav-link">Contact</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="../auth/destroy.php" class="nav-link">Logout</a>
+            <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="nav-link">Logout</a>
         </li>
     </ul>
 
