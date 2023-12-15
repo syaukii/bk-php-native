@@ -662,6 +662,6 @@ if ($akses != 'admin') {
   <?php include "../../layouts/footer.php"; ?>
 </div>
 <!-- ./wrapper -->
-<?php include "../../layouts/pluginsexport2.php"; ?>
+<?php include "../../layouts/pluginsexport.php"; ?>
 </body>
 </html>
