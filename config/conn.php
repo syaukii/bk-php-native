@@ -5,11 +5,11 @@ $dbname = 'bk_poliklinik';
 $username = 'root';
 $password = '';
 
-    try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    } catch (PDOException $e) {
-        die("Database connection failed: " . $e->getMessage());
-    }
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 
 $conn = mysqli_connect($host, $username, $password, $dbname);
 
@@ -25,11 +25,12 @@ function query($query)
     return $rows;
 }
 
-function ubahDokter($data) {
+function ubahDokter($data)
+{
     global $conn;
 
     $id = $data["id"];
-    $nama = mysqli_real_escape_string($conn, $data["nama"]); 
+    $nama = mysqli_real_escape_string($conn, $data["nama"]);
     $alamat = mysqli_real_escape_string($conn, $data["alamat"]);
     $no_hp = mysqli_real_escape_string($conn, $data["no_hp"]);
 
@@ -43,5 +44,3 @@ function ubahDokter($data) {
         return -1; // Or any other error indicator
     }
 }
-
-
