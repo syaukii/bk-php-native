@@ -11,41 +11,36 @@ if (isset($_SESSION['login'])) {
 
 $nama = $_SESSION['username'];
 $akses = $_SESSION['akses'];
+$id = $_SESSION['id'];
 
 if ($akses != 'dokter') {
   echo "<meta http-equiv='refresh' content='0; url=..'>";
   die();
 }
 
-$dokter = query("SELECT * FROM dokter WHERE nama = '$nama'");
+$dokter = query("SELECT * FROM dokter WHERE id = $id")[0];
 
-// // ambil data di url
-// $id = $_GET["id"];
-// // query data mahasiswa berdasarkan id
-// $dokter = query("SELECT * FROM dokter WHERE id = $id")[0];
-
-
-// // cek apakah tombol submit sudah ditekan atau belum
-// if (isset($_POST["submit"])) {
-
-
-//   // cek apakah data berhasil di ubah atau tidak
-//   if (ubah($_POST) > 0) {
-//     echo "
-//             <script>
-//                 alert('Data berhasil diubah');
-//                 document.location.href = 'index.php';
-//             </script>
-//         ";
-//   } else {
-//     echo "
-//             <script>
-//                 alert('Data Gagal diubah');
-//                 document.location.href = 'index.php';
-//             </script>
-//         ";
-//   }
-// }
+if (isset($_POST["submit"])) {
+  // cek apakah data berhasil di ubah atau tidak
+  if (ubahDokter($_POST) > 0) {
+    echo "
+        <script>
+            alert('Data berhasil diubah');
+            document.location.href = '../profil';
+        </script>
+    ";
+    session_write_close();
+    header("Refresh:0"); // Me-refresh halaman setelah perubahan data
+    exit;
+  } else {
+    echo "
+        <script>
+            alert('Data Gagal diubah');
+            document.location.href = '../profil';
+        </script>
+    ";
+  }
+}
 ?>
 
 
@@ -95,7 +90,7 @@ $dokter = query("SELECT * FROM dokter WHERE nama = '$nama'");
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Profile <?= ucwords($_SESSION['akses']) ?></h1>
+              <h1 class="m-0">Profil <?= ucwords($_SESSION['akses']) ?></h1>
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -104,65 +99,60 @@ $dokter = query("SELECT * FROM dokter WHERE nama = '$nama'");
 
       <!-- Main content -->
       <section class="content">
-        <div class="container mt-4">
-          <table class="table table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Nama</th>
-                <th scope="col">Alamat</th>
-                <th scope="col">No Telepon</th>
-                <th scope="col">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($dokter as $Docters) : ?>
-                <tr>
-                  <td><?= $Docters["nama"]; ?></td>
-                  <td><?= $Docters["alamat"]; ?></td>
-                  <td><?= $Docters["no_hp"]; ?></td>
-                  <td>
-                    <a href="">ubah</a> |
-                    <a href="">hapus</a>
-                  </td>
-                </tr>
-            </tbody>
-          <?php endforeach; ?>
-          </table>
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Edit <small>Data Dokter</small></h3>
+          </div>
+          <form id="editForm" action="" method="POST">
+            <input type="hidden" name="id" value="<?= $dokter["id"]; ?>">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="nama">Nama Dokter</label>
+                <input type="text" id="nama" name="nama" class="form-control" value="<?= $dokter['nama']; ?>">
+              </div>
+              <div class="form-group">
+                <label for="alamat">Alamat Dokter</label>
+                <input type="text" id="alamat" name="alamat" class="form-control" value="<?= $dokter['alamat']; ?>">
+              </div>
+              <div class="form-group">
+                <label for="no_hp">Telepon Dokter</label>
+                <input type="number" id="no_hp" name="no_hp" class="form-control" value="<?= $dokter['no_hp']; ?>">
+              </div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" name="submit" id="submitButton" class="btn btn-primary" disabled>Simpan Perubahan</button>
+              </div>
+            </div>
+          </form>
         </div>
-
-        <!-- <form action="" method="post">
-          <input type="hidden" name="id" value="<?= $mhs["id"]; ?>">
-          <ul>
-
-            <li>
-              <label for="nrp">NRP : </label>
-              <input type="text" name="nrp" id="nrp" value="<?= $mhs["nrp"]; ?>">
-            </li>
-            <li>
-              <label for="nama">Nama : </label>
-              <input type="text" name="nama" id="nama" require value="<?= $mhs["nama"]; ?>">
-            </li>
-            <li>
-              <label for="email">Email : </label>
-              <input type="text" name="email" id="email" value="<?= $mhs["email"]; ?>">
-            </li>
-            <li>
-              <label for="jurusan">Jurusan : </label>
-              <input type="text" name="jurusan" id="jurusan" value="<?= $mhs["jurusan"]; ?>">
-            </li>
-            <li>
-              <label for="gambar">Gambar : </label>
-              <input type="text" name="gambar" id="gambar" value="<?= $mhs["gambar"]; ?>">
-            </li>
-            <li>
-              <button type="submit" name="submit">
-                Ubah Data!
-              </button>
-            </li>
-          </ul>
-
-        </form> -->
       </section>
+
+      <script>
+        const form = document.getElementById('editForm');
+        const inputs = form.querySelectorAll('input');
+
+        const checkChanges = () => {
+          let changes = false;
+          inputs.forEach(input => {
+            if (input.defaultValue !== input.value) {
+              changes = true;
+            }
+          });
+          return changes;
+        };
+
+        const toggleSubmit = () => {
+          const submitButton = document.getElementById('submitButton');
+          if (checkChanges()) {
+            submitButton.disabled = false;
+          } else {
+            submitButton.disabled = true;
+          }
+        };
+
+        inputs.forEach(input => {
+          input.addEventListener('input', toggleSubmit);
+        });
+      </script>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

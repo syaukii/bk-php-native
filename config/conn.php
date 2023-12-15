@@ -1,6 +1,17 @@
 <?php
 require __DIR__ . '/url.php';
-$conn = mysqli_connect("localhost", "root", "", "bk_poliklinik");
+$host = 'localhost';
+$dbname = 'bk_poliklinik';
+$username = 'root';
+$password = '';
+
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    } catch (PDOException $e) {
+        die("Database connection failed: " . $e->getMessage());
+    }
+
+$conn = mysqli_connect($host, $username, $password, $dbname);
 
 function query($query)
 {
@@ -14,24 +25,23 @@ function query($query)
     return $rows;
 }
 
-function ubah($data)
-{
+function ubahDokter($data) {
     global $conn;
-    // ambil data dari tiap elemen dalam form
+
     $id = $data["id"];
-    $nama = htmlspecialchars($data["nama"]);
-    $alamat = htmlspecialchars($data["alamat"]);
-    $nohp = htmlspecialchars($data["no_hp"]);
+    $nama = mysqli_real_escape_string($conn, $data["nama"]); 
+    $alamat = mysqli_real_escape_string($conn, $data["alamat"]);
+    $no_hp = mysqli_real_escape_string($conn, $data["no_hp"]);
 
-    // query insert data
-    $query = "UPDATE dokter SET
-                    nama = '$nama',
-                    alamat = '$alamat',
-                    no_hp = '$nohp',
-                    WHERE id = $id
-                ";
-                
-    mysqli_query($conn, $query);
+    $query = "UPDATE dokter SET nama = '$nama', alamat = '$alamat', no_hp = '$no_hp' WHERE id = $id ";
 
-    return mysqli_affected_rows($conn);
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn); // Return the number of affected rows
+    } else {
+        // Handle the error
+        echo "Error updating record: " . mysqli_error($conn);
+        return -1; // Or any other error indicator
+    }
 }
+
+
