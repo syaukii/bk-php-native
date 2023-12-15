@@ -73,11 +73,33 @@ ob_start();
             <td><?= $d['no_hp']; ?></td>
             <td><?= $d['no_rm']; ?></td>
             <td>
-              <a href="detail.php/<?= $d['id'] ?>" 
+              <button data-toggle="modal" data-target="#exampleModalScrollable"
                 class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail Riwayat Periksa
-              </a>
+              </button>
             </td>
           </tr>
+          <!-- Modal start here -->
+          <!-- Pokoknya, PHP dan SQL ribet masuk sini. Aku malas berpikir sendiri-->
+          <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static" >
+            <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalScrollableTitle">Riwayat <?= $d['nama'] ?></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal ends here -->
         <?php } } ?>
       </tbody>
     </table>
