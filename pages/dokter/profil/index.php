@@ -23,6 +23,8 @@ $dokter = query("SELECT * FROM dokter WHERE id = $id")[0];
 if (isset($_POST["submit"])) {
   // cek apakah data berhasil di ubah atau tidak
   if (ubahDokter($_POST) > 0) {
+    $_SESSION['username'] = $_POST['nama'];
+
     echo "
         <script>
             alert('Data berhasil diubah');
