@@ -11,9 +11,9 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        <!-- <li class="nav-item d-none d-sm-inline-block">
             <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="nav-link">Logout</a>
-        </li>
+        </li> -->
     </ul>
 
     <!-- Right navbar links -->
@@ -41,7 +41,7 @@
         </li>
 
     <!-- Messages Dropdown Menu -->
-    <li class="nav-item dropdown">
+    <!-- <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="far fa-comments"></i>
         <span class="badge badge-danger navbar-badge">3</span>
@@ -49,7 +49,7 @@
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
         <a href="#" class="dropdown-item">
         <!-- Message Start -->
-        <div class="media">
+        <!-- <div class="media">
             <img src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
             <div class="media-body">
             <h3 class="dropdown-item-title">
@@ -59,13 +59,13 @@
             <p class="text-sm">Call me whenever you can...</p>
             <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
             </div>
-        </div>
+        </div> -->
         <!-- Message End -->
-        </a>
+        <!-- </a>
         <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
+        <a href="#" class="dropdown-item"> -->
         <!-- Message Start -->
-        <div class="media">
+        <!-- <div class="media">
             <img src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
             <div class="media-body">
             <h3 class="dropdown-item-title">
@@ -75,13 +75,13 @@
             <p class="text-sm">I got your message bro</p>
             <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
             </div>
-        </div>
+        </div> -->
         <!-- Message End -->
-        </a>
+        <!-- </a>
         <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
+        <a href="#" class="dropdown-item"> -->
         <!-- Message Start -->
-        <div class="media">
+        <!-- <div class="media">
             <img src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
             <div class="media-body">
             <h3 class="dropdown-item-title">
@@ -91,15 +91,15 @@
             <p class="text-sm">The subject goes here</p>
             <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
             </div>
-        </div>
+        </div> -->
         <!-- Message End -->
-        </a>
+        <!-- </a>
         <div class="dropdown-divider"></div>
         <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
     </div>
-    </li>
+    </li> -->
     <!-- Notifications Dropdown Menu -->
-    <li class="nav-item dropdown">
+    <!-- <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="far fa-bell"></i>
         <span class="badge badge-warning navbar-badge">15</span>
@@ -123,12 +123,22 @@
         </a>
         <div class="dropdown-divider"></div>
         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-    </div>
+    </div> -->
     </li>
     <li class="nav-item">
     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
         <i class="fas fa-expand-arrows-alt"></i>
     </a>
+    </li>
+    <!-- dropdown log out -->
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="dropdown-item">Logout</a>
+        </div>
     </li>
 </ul>
 </nav>
