@@ -73,14 +73,14 @@ ob_start();
             <td><?= $d['no_hp']; ?></td>
             <td><?= $d['no_rm']; ?></td>
             <td>
-              <button data-toggle="modal" data-target="#exampleModalScrollable"
-                class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail Riwayat Periksa
-              </button>
+              <a href="detail.php/<?= $d['id'] ?>" class="btn btn-info"><i class="fa fa-eye"></i> Detail Riwayat Periksa</a>
             </td>
           </tr>
+          <!-- Sementara pakai pindah halaman dulu sampai nemu
+              fix solusi modal tidak bisa menampilkan tabel -->
           <!-- Modal start here -->
           <!-- Pokoknya, PHP dan SQL ribet masuk sini. Aku malas berpikir sendiri-->
-          <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static" >
+          <!-- <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static" >
             <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -90,7 +90,8 @@ ob_start();
                   </button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <div class="container">
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -98,7 +99,7 @@ ob_start();
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- Modal ends here -->
         <?php } } ?>
       </tbody>
