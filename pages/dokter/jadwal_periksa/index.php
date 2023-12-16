@@ -11,6 +11,7 @@ if (isset($_SESSION['login'])) {
 
 $nama = $_SESSION['username'];
 $akses = $_SESSION['akses'];
+$id = $_SESSION['id'];
 
 if ($akses != 'dokter') {
   echo "<meta http-equiv='refresh' content='0; url=..'>";
@@ -47,7 +48,7 @@ ob_start();
         <h3 class="card-title">Daftar Jadwal Periksa</h3>
       </div>
       <div class="col-6">
-        <a href="#" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i> Tambah Jadwal Periksa</a>
+        <a href="create.php" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i> Tambah Jadwal Periksa</a>
       </div>
     </div>
   </div>
@@ -68,11 +69,12 @@ ob_start();
         $no = 1;
         $data = $pdo->prepare("SELECT 
                                 d.nama as nama_dokter, 
+                                p.id as id,
                                 p.hari as hari,
                                 p.jam_mulai as jam_mulai,
                                 p.jam_selesai as jam_selesai
                                 FROM jadwal_periksa p INNER JOIN dokter d ON p.id_dokter = d.id
-                                WHERE d.nama = '$nama'");
+                                WHERE d.id = '$id'");
         $data->execute();
         if ($data->rowCount() == 0) {
           echo "<tr><td colspan='7' align='center'>Tidak ada data</td></tr>";
@@ -86,8 +88,8 @@ ob_start();
           <td><?= $d['jam_mulai'] ?></td>
           <td><?= $d['jam_selesai'] ?></td>
           <td>
-            <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
-            <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
+            <a href="edit.php/<?= $d['id']?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
+            <a href="delete.php/<?= $d['id']?>" class="btn btn-danger btn-sm delete-button"><i class="fa fa-trash"></i> Hapus</a>
           </td>
         </tr>
         <?php
@@ -100,6 +102,19 @@ ob_start();
 </div>
 <?php
 $content = ob_get_clean();
+ob_flush();
+
+// JS Section
+ob_start();?>
+<script>
+  $(document).ready(function() {
+    $('.delete-button').on('click', function(e) {
+      return confirm('Apakah anda yakin ingin menghapus data ini?');
+    });
+  });
+</script>
+<?php
+$js = ob_get_clean();
 ob_flush();
 ?>
 

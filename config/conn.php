@@ -44,3 +44,71 @@ function ubahDokter($data)
         return -1; // Or any other error indicator
     }
 }
+
+// Jadwal Periksa Sisi Dokter
+function tambahJadwalPeriksa($data)
+{
+    try {
+        global $conn;
+
+        $id_dokter = $data["id_dokter"];
+        $hari = mysqli_real_escape_string($conn, $data["hari"]);
+        $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
+        $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
+
+        $query = "INSERT INTO jadwal_periksa VALUES ('', '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai')";
+
+        if (mysqli_query($conn, $query)) {
+            return mysqli_affected_rows($conn); // Return the number of affected rows
+        } else {
+            // Handle the error
+            echo "Error updating record: " . mysqli_error($conn);
+            return -1; // Or any other error indicator
+        }
+    } catch (\Exception $e) {
+        var_dump($e->getMessage());
+    }
+}
+
+function updateJadwalPeriksa($data, $id)
+{
+    try {
+        global $conn;
+
+        $hari = mysqli_real_escape_string($conn, $data["hari"]);
+        $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
+        $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
+
+        $query = "UPDATE jadwal_periksa SET hari = '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai' WHERE id = $id ";
+
+        if (mysqli_query($conn, $query)) {
+            return mysqli_affected_rows($conn); // Return the number of affected rows
+        } else {
+            // Handle the error
+            echo "Error updating record: " . mysqli_error($conn);
+            return -1; // Or any other error indicator
+        }
+    } catch (\Exception $e) {
+        var_dump($e->getMessage());
+        die();
+    }
+}
+
+function hapusJadwalPeriksa($id)
+{
+    try {
+        global $conn;
+
+        $query = "DELETE FROM jadwal_periksa WHERE id = $id";
+
+        if (mysqli_query($conn, $query)) {
+            return mysqli_affected_rows($conn); // Return the number of affected rows
+        } else {
+            // Handle the error
+            echo "Error updating record: " . mysqli_error($conn);
+            return -1; // Or any other error indicator
+        }
+    } catch (\Exception $e) {
+        var_dump($e->getMessage());
+    }
+}
