@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['login'])) {
   $_SESSION['login'] = true;
 } else {
-  echo "<meta http-equiv='refresh' content='0; url=..'>";
+  echo "<meta http-equiv='refresh' content='0; url=../auth/login.php'>";
   die();
 }
 
@@ -17,9 +17,7 @@ if ($akses != 'dokter') {
   die();
 }
 
-$pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS nama_pasien, daftar_poli.keluhan AS keluhan 
-                 FROM pasien 
-                 INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien");
+$pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS nama_pasien, daftar_poli.keluhan AS keluhan FROM pasien INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien");
 
 $obat = query("SELECT nama_obat, harga FROM obat");
 ?>
