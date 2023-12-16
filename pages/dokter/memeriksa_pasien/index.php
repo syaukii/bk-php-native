@@ -20,6 +20,8 @@ if ($akses != 'dokter') {
 $pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS nama_pasien, daftar_poli.keluhan AS keluhan 
                  FROM pasien 
                  INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien");
+
+$obat = query("SELECT nama_obat, harga FROM obat");
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +80,7 @@ $pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS na
                     <td><?= $pasiens["keluhan"] ?></td>
 
                     <td>
-                      <button type="button" class="btn btn-warning">Edit</button>
+                      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalTambahPeriksa">Edit</button>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -86,6 +88,42 @@ $pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS na
             </table>
           </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalTambahPeriksa" tabindex="-1" role="dialog" aria-labelledby="modalTambahPeriksaLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalTambahPeriksaLabel">Tambah Periksa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Form untuk menambahkan data periksa -->
+                <form action="proses_tambah_periksa.php" method="POST">
+                  <!-- Kolom input untuk menambahkan data -->
+                  <div class="form-group">
+                    <label for="nama_pasien">Nama Pasien</label>
+                    <input type="text" class="form-control" id="nama_pasien" name="nama_pasien" value="<?= $pasiens["nama_pasien"] ?>" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="nama_pasien">Obat</label>
+                    <select multiple="" class="form-control">
+                      <?php foreach ($obat as $obats) : ?>
+                        <option><?= $obats['nama_obat']; ?> - Rp.<?= $obats['harga']; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+
+                  <!-- Tombol untuk mengirim form -->
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </section>
       <!-- /.content -->
     </div>
