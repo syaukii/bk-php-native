@@ -143,8 +143,8 @@ ob_start();
               <td><?php echo $data['no_hp'] ?></td>
               <td><?php echo $data['no_rm'] ?></td>
               <td>
-                  <a class="btn btn-success" href="index.php?page=obat&id=<?php echo $data['id'] ?>">Ubah</a>
-                  <a class="btn btn-danger" href="index.php?page=obat&id=<?php echo $data['id'] ?>&aksi=hapus">Hapus</a>
+                  <a class="btn btn-success" href="index.php?id=<?php echo $data['id'] ?>">Ubah</a>
+                  <a class="btn btn-danger" href="index.php?id=<?php echo $data['id'] ?>&aksi=hapus">Hapus</a>
               </td>
           </tr>
       <?php
@@ -153,14 +153,14 @@ ob_start();
       </tbody>
     </table>
     <?php
-        if (isset($_POST['simpan'])) {
+      if (isset($_POST['simpan'])) {
         if (isset($_POST['id'])) {
             $stmt = $pdo->prepare("UPDATE pasien SET 
                                     nama = :nama,
                                     alamat = :alamat,
                                     no_ktp = :no_ktp,
                                     no_hp = :no_hp,
-                                    no_rm = :no_rm,
+                                    no_rm = :no_rm
                                     WHERE
                                     id = :id");
 
