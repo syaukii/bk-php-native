@@ -3,12 +3,13 @@ session_start();
 include_once("../../config/conn.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Mendapatkan nilai dari form
+
+  // Mendapatkan nilai dari form -- atribut name di input
   $nama = $_POST['nama'];
   $alamat = $_POST['alamat'];
   $no_ktp = $_POST['no_ktp'];
   $no_hp = $_POST['no_hp'];
-  $password = $_POST['password'];
+  // $password = $_POST['password'];
 
   // Generate no_rm in the format (tahun)(bulan)-(nomorurutanid)
   
@@ -29,7 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   // Query untuk menambahkan data ke tabel pasien
-  $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm, password) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm', '$hashed_password')";
+  // $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm, password) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm', '$hashed_password')";
+
+  $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm')";
+
 
   // Eksekusi query
   if (mysqli_query($conn, $query)) {
@@ -72,35 +76,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="card-body">
       <p class="login-box-msg">Register a new account</p>
 
+      <!-- nama -->
       <form action="" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Full name" name="nama" >
+          <input type="text" class="form-control" required placeholder="Full name" name="nama" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
             </div>
           </div>
         </div>
+        <!-- alamat -->
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="alamat" name="alamat" >
+          <input type="text" class="form-control" required placeholder="alamat" name="alamat" >
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+              <span class="fa fa-map-marker"></span>
             </div>
           </div>
         </div>
         <!-- no ktp -->
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="No ktp" name="no_ktp" >
+          <input type="number" class="form-control" required placeholder="No ktp" name="no_ktp" >
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-address-book-o"></span>
+              <span class="fa fa-address-book"></span>
             </div>
           </div>
         </div>
         <!-- no hp -->
         <div class="input-group mb-3">
-          <input type="number" class="form-control" placeholder="NO HP" name="no_hp" >
+          <input type="number" class="form-control" required placeholder="NO HP" name="no_hp" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-phone-square"></span>
@@ -110,14 +116,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         <!-- pass -->
-        <div class="input-group mb-3">
+        <!-- <div class="input-group mb-3">
           <input type="password" class="form-control" placeholder="Password" name="password" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
-        </div>
+        </div> -->
         
         <div class="row">
           <div class="col-8">
