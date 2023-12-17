@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= isset($title) ? $title : 'Default Title'; ?></title>
   <?php include "plugin_header.php"?>
+  <!-- style bantuan -->
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: 50px repeat(6, 1fr);
+      padding: 15px;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+    }
+
+    .grid-item {
+      padding: 10px;
+      border: 1px solid #dee2e6;
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <!-- Preloader -->

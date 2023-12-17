@@ -78,10 +78,29 @@ ob_start();
               </button>
             </td>
           </tr>
-          <!-- Modal start here -->
-          <!-- Pokoknya, PHP dan SQL ribet masuk sini. Aku malas berpikir sendiri-->
+          <!-- Modal Detail Riwayat Periksa start here -->
+          <?php
+          $no = 1;
+          $pasien_id = $d['id'];
+          $data2 = $pdo->query("SELECT 
+                                  p.nama AS 'nama_pasien',
+                                  pr.*,
+                                  d.nama AS 'nama_dokter',
+                                  dpo.keluhan AS 'keluhan',
+                                  GROUP_CONCAT(o.nama_obat SEPARATOR ', ') AS 'obat'
+                              FROM periksa pr
+                              LEFT JOIN daftar_poli dpo ON (pr.id_daftar_poli = dpo.id)
+                              LEFT JOIN jadwal_periksa jp ON (dpo.id_jadwal = jp.id)
+                              LEFT JOIN dokter d ON (jp.id_dokter = d.id)
+                              LEFT JOIN pasien p ON (dpo.id_pasien = p.id)
+                              LEFT JOIN detail_periksa dp ON (pr.id = dp.id_periksa)
+                              LEFT JOIN obat o ON (dp.id_obat = o.id)
+                              WHERE dpo.id_pasien = '$pasien_id'
+                              GROUP BY pr.id
+                              ORDER BY pr.tgl_periksa DESC;");
+          ?>
           <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static" >
-            <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalScrollableTitle">Riwayat <?= $d['nama'] ?></h5>
@@ -90,16 +109,38 @@ ob_start();
                   </button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <!-- Mulai Tabel -->
+                  <?php if ($data->rowCount() == 0) : ?>
+                    <h5>Data Tidak Ditemukan</h5>
+                  <?php else : ?>
+                    <div class="grid-container">
+                      <div class="grid-item">No</div>
+                      <div class="grid-item">Tanggal Periksa</div>
+                      <div class="grid-item">Nama Pasien</div>
+                      <div class="grid-item">Nama Dokter</div>
+                      <div class="grid-item">Keluhan</div>
+                      <div class="grid-item">Catatan</div>
+                      <div class="grid-item">Obat</div>
+                      <?php while ($da = $data2->fetch()) : ?>
+                        <div class="grid-item"><?= $no++; ?></div>
+                        <div class="grid-item"><?= $da['tgl_periksa']; ?></div>
+                        <div class="grid-item"><?= $da['nama_pasien']; ?></div>
+                        <div class="grid-item"><?= $da['nama_dokter']; ?></div>
+                        <div class="grid-item"><?= $da['keluhan']; ?></div>
+                        <div class="grid-item"><?= $da['catatan']; ?></div>
+                        <div class="grid-item"><?= $da['obat']; ?></div>
+                      <?php endwhile ?>
+                    </div>
+                  <?php endif ?>
+                  <!-- Akhir dari Tabel -->
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
               </div>
             </div>
           </div>
-          <!-- Modal ends here -->
+          <!-- Modal Detail Riwayat Periksa ends here -->
         <?php } } ?>
       </tbody>
     </table>

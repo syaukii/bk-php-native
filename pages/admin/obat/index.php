@@ -122,7 +122,7 @@ ob_start();
       ?>
       </tbody>
     </table>
-    <<?php
+    <?php
         if (isset($_POST['simpan'])) {
         if (isset($_POST['id'])) {
             $stmt = $pdo->prepare("UPDATE obat SET 
