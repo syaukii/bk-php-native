@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $row_last_id = mysqli_fetch_assoc($result_last_id);
   $last_inserted_id = $row_last_id['max_id'] ? $row_last_id['max_id'] : 0;
 
-  $no_rm = $tahun_bulan . "-" . str_pad($last_inserted_id + 1, 3, '0', STR_PAD_LEFT);
+  $no_rm = $tahun_bulan . "-" . $last_inserted_id+1;
 
   // Hash password sebelum menyimpan ke database (gunakan metode keamanan yang lebih baik di produksi)
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <input type="number" class="form-control" placeholder="No ktp" name="no_ktp" >
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+              <span class="fas fa-address-book-o"></span>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <input type="number" class="form-control" placeholder="NO HP" name="no_hp" >
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+              <span class="fas fa-phone-square"></span>
             </div>
           </div>
         </div>
