@@ -17,8 +17,13 @@ if ($akses != 'dokter') {
   die();
 }
 
-$pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS nama_pasien, daftar_poli.keluhan AS keluhan, daftar_poli.status_periksa AS status_periksa, daftar_poli.id AS id_daftar_poli FROM pasien INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien");
-$obat = query("SELECT nama_obat, harga FROM obat");
+$pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS nama_pasien, daftar_poli.keluhan AS keluhan 
+                 FROM pasien 
+                 INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien");
+
+$periksa = query("SELECT * from periksa");
+
+$obat = query("SELECT * FROM obat");
 ?>
 
 <!DOCTYPE html>
@@ -103,27 +108,27 @@ $obat = query("SELECT nama_obat, harga FROM obat");
               <div class="modal-body">
                 <!-- Form untuk menambahkan data periksa -->
                 <form action="" method="POST">
-                  <div class="form-group">
-                    <input class="form-control" value="<?= $pasiens["id_daftar_poli"] ?>" type="text" name="id_daftar_poli" id="id_daftar_poli" hidden>
-                  </div>
                   <!-- Kolom input untuk menambahkan data -->
                   <div class="form-group">
                     <label for="nama_pasien">Nama Pasien</label>
                     <input type="text" class="form-control" id="nama_pasien" name="nama_pasien" value="<?= $pasiens["nama_pasien"] ?>" disabled>
                   </div>
+                  
                   <div class="form-group">
                     <label for="tgl_periksa">Tanggal Periksa</label>
-                    <input class="form-control" id="tgl_periksa" name="tgl_periksa" type="datetime-local">
+                    <input type="datetime-local" class="form-control" id="tgl_periksa" name="tgl_periksa" value="<?= $pariksa["tgl_periksa"] ?>">
                   </div>
+                  
                   <div class="form-group">
-                    <label for="catatan_pasien">Catatan</label>
-                    <textarea name="catatan" id="catatan" class="form-control"></textarea>
+                    <label for="catatan">Catatan</label>
+                    <input type="text" class="form-control" id="catatan" name="catatan" value="<?= $periksa["catatan"] ?>">
                   </div>
+
                   <div class="form-group">
                     <label for="nama_pasien">Obat</label>
                     <select multiple="" class="form-control">
                       <?php foreach ($obat as $obats) : ?>
-                        <option><?= $obats['nama_obat']; ?> | Rp<?= $obats['harga']; ?>,-</option>
+                        <option value="<?= $obats['id']; ?>"><?= $obats['nama_obat']; ?> - <?= $obats['kemasan']; ?> - Rp.<?= $obats['harga']; ?></option>
                       <?php endforeach; ?>
                     </select>
                   </div>

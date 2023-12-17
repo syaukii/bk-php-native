@@ -114,12 +114,13 @@ function hapusJadwalPeriksa($id)
 }
 
 function TambahPeriksa($data)
+
 {
     global $conn;
-    // ambil data dari tiap elemen dalam form
-    $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
-    $catatan = htmlspecialchars($data["catatan"]);
-
+     // ambil data dari tiap elemen dalam form
+     $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
+     $catatan = htmlspecialchars($data["catatan"]);
+     
 
     // query insert data
     $query = "INSERT INTO periksa
@@ -133,15 +134,14 @@ function TambahPeriksa($data)
 }
 
 // ini belum selesai mau dilanjutin vander :v
-function TambahDetailPeriksa($data)
-{
+function TambahDetailPeriksa($data){
     global $conn;
-    // ambil data dari tiap elemen dalam form
-    $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
-    $catatan = htmlspecialchars($data["catatan"]);
+     // ambil data dari tiap elemen dalam form
+     $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
+     $catatan = htmlspecialchars($data["catatan"]);
+     
 
-
-    // query insert data
+      // query insert data
     $query = "INSERT INTO detail_periksa
                 VALUES
                 ('', '$tgl_periksa','$catatan');
