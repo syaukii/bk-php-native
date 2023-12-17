@@ -30,3 +30,5 @@
 <script src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/js/pages/dashboard.js"></script>
+<!-- Select2 -->
+<script src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/plugins/select2/js/select2.full.min.js"></script>

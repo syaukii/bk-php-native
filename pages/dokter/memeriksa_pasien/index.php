@@ -17,9 +17,17 @@ if ($akses != 'dokter') {
   die();
 }
 
-$pasien = query("SELECT  daftar_poli.no_antrian AS no_antrian, pasien.nama AS nama_pasien, daftar_poli.keluhan AS keluhan 
-                 FROM pasien 
-                 INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien");
+$pasien = query("SELECT
+                  periksa.id AS id_periksa,
+                  pasien.id AS id_pasien,
+                  periksa.catatan AS catatan,
+                  daftar_poli.no_antrian AS no_antrian, 
+                  pasien.nama AS nama_pasien, 
+                  daftar_poli.keluhan AS keluhan,
+                  daftar_poli.status_periksa AS status_periksa
+                FROM pasien 
+                INNER JOIN daftar_poli ON pasien.id = daftar_poli.id_pasien
+                LEFT JOIN periksa ON daftar_poli.id = periksa.id_daftar_poli");
 
 $periksa = query("SELECT * from periksa");
 
@@ -83,9 +91,10 @@ $obat = query("SELECT * FROM obat");
 
                     <td>
                       <?php if ($pasiens["status_periksa"] == 0) { ?>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPeriksa">Periksa</button>
-                      <?php } else { ?>
-                        <p>Okee</p>
+                        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPeriksa">Periksa</button> -->
+                        <a href="periksa.php/<?= $pasiens['id_periksa'] ?>" class="btn btn-primary"><i class="fas fa-stethoscope"></i> Periksa </a>
+                        <?php } else { ?>
+                          <a href="edit.php/<?= $pasiens['id_periksa'] ?>" class="btn btn-warning"><i class="fa fa-edit"></i> Edit </a>
                       <?php } ?>
                     </td>
                   </tr>
@@ -121,7 +130,7 @@ $obat = query("SELECT * FROM obat");
                   
                   <div class="form-group">
                     <label for="catatan">Catatan</label>
-                    <input type="text" class="form-control" id="catatan" name="catatan" value="<?= $periksa["catatan"] ?>">
+                    <input type="text" class="form-control" id="catatan" name="catatan" value="<?= $pasiens["catatan"] ?>">
                   </div>
 
                   <div class="form-group">
