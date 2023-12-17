@@ -20,7 +20,7 @@ if ($akses != 'dokter') {
 <?php
 $title = 'Poliklinik | Riwayat Pasien';
 // Breadcrumb section
-ob_start();?>
+ob_start(); ?>
 <ol class="breadcrumb float-sm-right">
   <li class="breadcrumb-item"><a href="<?= $base_dokter; ?>">Home</a></li>
   <li class="breadcrumb-item active">Riwayat Pasien</li>
@@ -30,7 +30,7 @@ $breadcrumb = ob_get_clean();
 ob_flush();
 
 // Title Section
-ob_start();?>
+ob_start(); ?>
 Riwayat Pasien
 <?php
 $main_title = ob_get_clean();
@@ -65,42 +65,42 @@ ob_start();
         } else {
           while ($d = $data->fetch()) {
         ?>
-          <tr>
-            <td><?= $no++; ?></td>
-            <td><?= $d['nama']; ?></td>
-            <td><?= $d['alamat']; ?></td>
-            <td><?= $d['no_ktp']; ?></td>
-            <td><?= $d['no_hp']; ?></td>
-            <td><?= $d['no_rm']; ?></td>
-            <td>
-              <button data-toggle="modal" data-target="#exampleModalScrollable"
-                class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail Riwayat Periksa
-              </button>
-            </td>
-          </tr>
-          <!-- Modal start here -->
-          <!-- Pokoknya, PHP dan SQL ribet masuk sini. Aku malas berpikir sendiri-->
-          <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static" >
-            <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalScrollableTitle">Riwayat <?= $d['nama'] ?></h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+            <tr>
+              <td><?= $no++; ?></td>
+              <td><?= $d['nama']; ?></td>
+              <td><?= $d['alamat']; ?></td>
+              <td><?= $d['no_ktp']; ?></td>
+              <td><?= $d['no_hp']; ?></td>
+              <td><?= $d['no_rm']; ?></td>
+              <td>
+                <button data-toggle="modal" data-target="#exampleModalScrollable" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Detail Riwayat Periksa
+                </button>
+              </td>
+            </tr>
+            <!-- Modal start here -->
+            <!-- Pokoknya, PHP dan SQL ribet masuk sini. Aku malas berpikir sendiri-->
+            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static">
+              <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Riwayat <?= $d['nama'] ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- Modal ends here -->
-        <?php } } ?>
+            <!-- Modal ends here -->
+        <?php }
+        } ?>
       </tbody>
     </table>
   </div>
