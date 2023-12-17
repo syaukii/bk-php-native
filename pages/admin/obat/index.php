@@ -113,7 +113,7 @@ ob_start();
               <td><?php echo $data['kemasan'] ?></td>
               <td>Rp. <?php echo $data['harga'] ?></td>
               <td>
-                  <a class="btn btn-success rounded-pill px-3" href="index.php?page=obat&id=<?php echo $data['id'] ?>">Ubah</a>
+                  <a class="btn btn-success rounded-pill px-3" href="index.php?page=obat&id=<?php echo $data['id'] ?>">Edit</a>
                   <a class="btn btn-danger rounded-pill px-3" href="index.php?page=obat&id=<?php echo $data['id'] ?>&aksi=hapus">Hapus</a>
               </td>
           </tr>
