@@ -113,6 +113,7 @@ if (isset($_POST['submit'])) {
               $_SESSION['login'] = true;
               $_SESSION['id'] = $baris[0]['id'];
               $_SESSION['username'] = $baris[0]['nama'];
+              $_SESSION['no_rm'] = $baris[0]['no_rm'];
               $_SESSION['akses'] = 'pasien';
               echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
               die();
