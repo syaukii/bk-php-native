@@ -92,7 +92,7 @@ $obat = query("SELECT * FROM obat");
                     <td>
                       <?php if ($pasiens["status_periksa"] == 0) { ?>
                         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPeriksa">Periksa</button> -->
-                        <a href="periksa.php/<?= $pasiens['id_periksa'] ?>" class="btn btn-primary"><i class="fas fa-stethoscope"></i> Periksa </a>
+                        <a href="create.php/<?= $pasiens['id_pasien'] ?>" class="btn btn-primary"><i class="fas fa-stethoscope"></i> Periksa </a>
                         <?php } else { ?>
                           <a href="edit.php/<?= $pasiens['id_periksa'] ?>" class="btn btn-warning"><i class="fa fa-edit"></i> Edit </a>
                       <?php } ?>
