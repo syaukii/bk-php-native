@@ -17,9 +17,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $result_check_pasien = mysqli_query($conn, $query_check_pasien);
 
   if (mysqli_num_rows($result_check_pasien) > 0) {
-    // Pasien sudah terdaftar -- ini ada hal yang kurang baik.
-    // jika validasi hanya sebatas ini, akan ada pasien lain dengan no_ktp sama akan masuk dan data tidak akan masuk kedalam table pasien.
     $row = mysqli_fetch_assoc($result_check_pasien);
+    // ini kurang baik, jika menggunakan no_rm maka anak anak tidak bisa memiliki no_rm lebih baik menggunakan no kk
+
+    if ( $row['nama'] != $nama) {
+      // Display an alert if the provided name does not match the stored name
+      echo "<script>alert('Nama pasien tidak sesuai dengan nomor KTP yang terdaftar.');</script>";
+      echo "<meta http-equiv='refresh' content='0; url=register.php'>";
+      die();
+  }
+
     $_SESSION['login'] = true;
     $_SESSION['id'] = $row['id'];
     $_SESSION['username'] = $nama;
