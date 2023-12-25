@@ -2,6 +2,7 @@
 session_start();
 include_once("../../config/conn.php");
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Mendapatkan nilai dari form -- atribut name di input
@@ -11,40 +12,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $no_hp = $_POST['no_hp'];
   // $password = $_POST['password'];
 
-  // Generate no_rm in the format (tahun)(bulan)-(nomorurutanid)
+  // Cek apakah pasien sudah terdaftar berdasarkan nomor KTP
+  $query_check_pasien = "SELECT id, no_rm FROM pasien WHERE no_ktp = '$no_ktp'";
+  $result_check_pasien = mysqli_query($conn, $query_check_pasien);
+
+  if (mysqli_num_rows($result_check_pasien) > 0) {
+    // Pasien sudah terdaftar -- ini ada hal yang kurang baik.
+    // jika validasi hanya sebatas ini, akan ada pasien lain dengan no_ktp sama akan masuk dan data tidak akan masuk kedalam table pasien.
+    $row = mysqli_fetch_assoc($result_check_pasien);
+    $_SESSION['login'] = true;
+    $_SESSION['id'] = $row['id'];
+    $_SESSION['username'] = $nama;
+    $_SESSION['no_rm'] = $row['no_rm'];
+    $_SESSION['akses'] = 'pasien';
+
+    echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
+    die();
+  }
   
-  $tahun_bulan = "20" . date("ym");
-  $no_rm_query = $pdo->prepare("SELECT MAX(RIGHT(no_rm, 3)) as max_id FROM pasien WHERE SUBSTRING(no_rm, 1, 4) = :tahun_bulan");
-  $no_rm_query->bindParam(':tahun_bulan', $tahun_bulan, PDO::PARAM_STR);
+  // dapatkan nilai tahun
+  $tahun_bulan = date("Ym");
 
-
-  // Ambil ID terakhir yang ditambahkan
-  $query_last_id = "SELECT MAX(id) as max_id FROM pasien";
+  // ini adalah jika melihat unik RM dari id pasien.
+  $query_last_id = "SELECT MAX(id) as max_id FROM pasien";  // kenapa id ?  karena dia unik dan Auto increment. jika jumlah dipake maka ketika ada 1 pasien didelete akan bertabrakan data nya jika tidak diperbauri no urutnya  
   $result_last_id = mysqli_query($conn, $query_last_id);
   $row_last_id = mysqli_fetch_assoc($result_last_id);
   $last_inserted_id = $row_last_id['max_id'] ? $row_last_id['max_id'] : 0;
 
   $no_rm = $tahun_bulan . "-" . $last_inserted_id+1;
 
-  // Hash password sebelum menyimpan ke database (gunakan metode keamanan yang lebih baik di produksi)
-  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+
+  // -------------------- KETIKA MAU MENGGUNAKAN PASSWORD -----------------------
+  // Hash password sebelum menyimpan ke database (gunakan metode keamanan yang lebih baik di produksi)
+  // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
   // Query untuk menambahkan data ke tabel pasien
   // $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm, password) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm', '$hashed_password')";
 
-  $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm')";
 
+  // Tentukan format nomor RM
+  if ($last_inserted_id + 1 < 10) {
+    $no_rm = $tahun_bulan . "-00" . ($last_inserted_id + 1);
+  } elseif ($last_inserted_id + 1 < 100) {
+    $no_rm = $tahun_bulan . "-0" . ($last_inserted_id + 1);
+  } else {
+    $no_rm = $tahun_bulan . "-" . ($last_inserted_id + 1);
+  }
+
+// Lakukan operasi INSERT
+  $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm')";
 
   // Eksekusi query
   if (mysqli_query($conn, $query)) {
-    // Display alert with the generated no_rm
-    echo "<script>alert('Data berhasil ditambahkan. No RM: $no_rm');</script>";
-    // Redirect ke halaman lain
-    header("Location: login-pasien.php");
-    exit();
+    // Set session variables
+    $_SESSION['login'] = true;  //Menandakan langsung login
+    $_SESSION['id'] = mysqli_insert_id($conn); //mengambil id
+    $_SESSION['username'] = $nama;
+    $_SESSION['no_rm'] = $no_rm;
+    $_SESSION['akses'] = 'pasien';
+
+    // Redirect ke halaman dashboard
+    echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
+    die();
   } else {
     echo "Error: " . $query . "<br>" . mysqli_error($conn);
   }
+
 
   // Tutup koneksi database
   mysqli_close($conn);

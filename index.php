@@ -7,6 +7,9 @@ $arah = null;
 if (isset($_SESSION['login'])) {
   $muncul = true;
   $arah = $_SESSION['akses'];
+}if (isset($_SESSION['signup'])) {
+  $muncul = true;
+  $arah = $_SESSION['akses'];
 }
 ?>
 
