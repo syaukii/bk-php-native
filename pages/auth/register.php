@@ -13,16 +13,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // $password = $_POST['password'];
 
   // Cek apakah pasien sudah terdaftar berdasarkan nomor KTP
-  $query_check_pasien = "SELECT id, no_rm FROM pasien WHERE no_ktp = '$no_ktp'";
+  $query_check_pasien = "SELECT id, nama ,no_rm FROM pasien WHERE no_ktp = '$no_ktp'";
   $result_check_pasien = mysqli_query($conn, $query_check_pasien);
 
   if (mysqli_num_rows($result_check_pasien) > 0) {
     $row = mysqli_fetch_assoc($result_check_pasien);
     // ini kurang baik, jika menggunakan no_ktp maka anak anak tidak bisa memiliki no_rm lebih baik menggunakan no kk
 
+
+    // Debug: Print data
+    // echo "Data yang diperoleh dari database:<br>";
+    // print_r($row['nama']);
+
+    // // Debug: Print input data
+    // echo "Data yang dimasukkan dari form:<br>";
+    // echo "Nama: $nama<br>";
+    // echo "Nomor KTP: $no_ktp<br>";
+
     if ( $row['nama'] != $nama) {
       // Display an alert if the provided name does not match the stored name
-      echo "<script>alert('Nama pasien tidak sesuai dengan nomor KTP yang terdaftar.');</script>";
+      echo "<script>alert(`Nama pasien tidak sesuai dengan nomor KTP yang terdaftar.`);</script>";
       echo "<meta http-equiv='refresh' content='0; url=register.php'>";
       die();
   }
