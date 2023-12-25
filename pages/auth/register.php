@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (mysqli_num_rows($result_check_pasien) > 0) {
     $row = mysqli_fetch_assoc($result_check_pasien);
-    // ini kurang baik, jika menggunakan no_rm maka anak anak tidak bisa memiliki no_rm lebih baik menggunakan no kk
+    // ini kurang baik, jika menggunakan no_ktp maka anak anak tidak bisa memiliki no_rm lebih baik menggunakan no kk
 
     if ( $row['nama'] != $nama) {
       // Display an alert if the provided name does not match the stored name
