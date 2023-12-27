@@ -46,6 +46,7 @@ ob_flush();
 
 // Content Section
 ob_start();?>
+
 <div class="card">
   <div class="card-header bg-primary">
     <h3 class="card-title">Detail Poli</h3>
@@ -111,6 +112,9 @@ ob_start();?>
                     ?>
   </div>
 </div>
+
+<a href="<?=$base_pasien . '/poli';?>" class="btn btn-primary btn-block">Kembali</a>
+
 <?php
 $content = ob_get_clean();
 ob_flush();
