@@ -191,3 +191,8 @@ function getLatestNoAntrian($id_jadwal, $pdo)
     $row = $latestNoAntrian->fetch();
     return $row['max_no_antrian'] ? $row['max_no_antrian'] : 0;
 }
+
+function formatRupiah($angka)
+{
+    return "Rp" . number_format($angka, 0, ',', '.');
+}
