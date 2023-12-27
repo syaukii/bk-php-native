@@ -2,8 +2,8 @@
 include_once("../../../config/conn.php");
 session_start();
 
-if (isset($_SESSION['login'])) {
-  $_SESSION['login'] = true;
+if (isset($_SESSION['signup'])) {
+  $_SESSION['signup'] = true;
 } else {
   echo "<meta http-equiv='refresh' content='0; url=..'>";
   die();

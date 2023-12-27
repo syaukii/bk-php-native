@@ -10,34 +10,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $alamat = $_POST['alamat'];
   $no_ktp = $_POST['no_ktp'];
   $no_hp = $_POST['no_hp'];
-  // $password = $_POST['password'];
 
+
+  //   -------   SITUASI 1 -------
   // Cek apakah pasien sudah terdaftar berdasarkan nomor KTP
   $query_check_pasien = "SELECT id, nama ,no_rm FROM pasien WHERE no_ktp = '$no_ktp'";
   $result_check_pasien = mysqli_query($conn, $query_check_pasien);
 
   if (mysqli_num_rows($result_check_pasien) > 0) {
     $row = mysqli_fetch_assoc($result_check_pasien);
-    // ini kurang baik, jika menggunakan no_ktp maka anak anak tidak bisa memiliki no_rm lebih baik menggunakan no kk
-
-
-    // Debug: Print data
-    // echo "Data yang diperoleh dari database:<br>";
-    // print_r($row['nama']);
-
-    // // Debug: Print input data
-    // echo "Data yang dimasukkan dari form:<br>";
-    // echo "Nama: $nama<br>";
-    // echo "Nomor KTP: $no_ktp<br>";
 
     if ( $row['nama'] != $nama) {
-      // Display an alert if the provided name does not match the stored name
+      // ketika nama tidak sesuai dengan no_ktp
       echo "<script>alert(`Nama pasien tidak sesuai dengan nomor KTP yang terdaftar.`);</script>";
       echo "<meta http-equiv='refresh' content='0; url=register.php'>";
       die();
   }
 
-    $_SESSION['login'] = true;
+    $_SESSION['signup'] = true;
     $_SESSION['id'] = $row['id'];
     $_SESSION['username'] = $nama;
     $_SESSION['no_rm'] = $row['no_rm'];
@@ -46,44 +36,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
     die();
   }
-  
-  // dapatkan nilai tahun
-  $tahun_bulan = date("Ym");
 
-  // ini adalah jika melihat unik RM dari id pasien.
-  $query_last_id = "SELECT MAX(id) as max_id FROM pasien";  // kenapa id ?  karena dia unik dan Auto increment. jika jumlah dipake maka ketika ada 1 pasien didelete akan bertabrakan data nya jika tidak diperbauri no urutnya  
-  $result_last_id = mysqli_query($conn, $query_last_id);
-  $row_last_id = mysqli_fetch_assoc($result_last_id);
-  $last_inserted_id = $row_last_id['max_id'] ? $row_last_id['max_id'] : 0;
+  //   -------   SITUASI 2 -------
 
-  $no_rm = $tahun_bulan . "-" . $last_inserted_id+1;
+  // Query untuk mendapatkan nomor antrian terakhir
+  $queryGetRm = "SELECT MAX(SUBSTRING(no_rm, 8)) as last_queue_number FROM pasien";
+  $resultRm = mysqli_query($conn, $queryGetRm);
 
-
-
-  // -------------------- KETIKA MAU MENGGUNAKAN PASSWORD -----------------------
-  // Hash password sebelum menyimpan ke database (gunakan metode keamanan yang lebih baik di produksi)
-  // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-  // Query untuk menambahkan data ke tabel pasien
-  // $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm, password) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm', '$hashed_password')";
-
-
-  // Tentukan format nomor RM
-  if ($last_inserted_id + 1 < 10) {
-    $no_rm = $tahun_bulan . "-00" . ($last_inserted_id + 1);
-  } elseif ($last_inserted_id + 1 < 100) {
-    $no_rm = $tahun_bulan . "-0" . ($last_inserted_id + 1);
-  } else {
-    $no_rm = $tahun_bulan . "-" . ($last_inserted_id + 1);
+  // Periksa hasil query
+  if (!$resultRm) {
+      die("Query gagal: " . mysqli_error($conn));
   }
 
-// Lakukan operasi INSERT
+  // Ambil nomor antrian terakhir dari hasil query
+  $rowRm = mysqli_fetch_assoc($resultRm);
+  $lastQueueNumber = $rowRm['last_queue_number'];
+
+  // Jika tabel kosong, atur nomor antrian menjadi 0
+  $lastQueueNumber = $lastQueueNumber ? $lastQueueNumber : 0;
+
+  // ---
+
+  // Mendapatkan tahun saat ini (misalnya, 202312)
+  $tahun_bulan = date("Ym");
+
+  // Membuat nomor antrian baru dengan menambahkan 1 pada nomor antrian terakhir
+  $newQueueNumber = $lastQueueNumber + 1;
+
+  // Menyusun nomor rekam medis dengan format YYYYMM-XXX
+  $no_rm = $tahun_bulan . "-" . str_pad($newQueueNumber, 3, '0', STR_PAD_LEFT);
+
+
+  // ---
+
+  // Lakukan operasi INSERT
   $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm')";
 
   // Eksekusi query
   if (mysqli_query($conn, $query)) {
     // Set session variables
-    $_SESSION['login'] = true;  //Menandakan langsung login
-    $_SESSION['id'] = mysqli_insert_id($conn); //mengambil id
+    $_SESSION['signup'] = true;  //Menandakan langsung ke dashboard
+    $_SESSION['id'] = mysqli_insert_id($conn); //mengambil id terakhir
     $_SESSION['username'] = $nama;
     $_SESSION['no_rm'] = $no_rm;
     $_SESSION['akses'] = 'pasien';
@@ -163,17 +156,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
           </div>
         </div>
-
-
-        <!-- pass -->
-        <!-- <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div> -->
         
         <div class="row">
           <div class="col-8">
