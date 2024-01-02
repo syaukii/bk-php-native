@@ -20,6 +20,16 @@ if ($akses != 'pasien') {
 }
 
 if (isset($_POST['submit'])) {
+
+  if ($_POST['id_jadwal'] == "900") {
+    echo "
+        <script>
+            alert('Jadwal tidak boleh kosong!');
+        </script>
+    ";
+    echo "<meta http-equiv='refresh' content='0>";
+  }
+
   if (daftarPoli($_POST) > 0) {
     echo "
         <script>
@@ -131,7 +141,7 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3">
                   <label for="inputJadwal" class="form-label">Pilih Jadwal</label>
                   <select id="inputJadwal" class="form-control" name="id_jadwal">
-                    <option selected>Open this select menu</option>
+                    <option value="900">Open this select menu</option>
                   </select>
                 </div>
 
@@ -184,6 +194,7 @@ if (isset($_POST['submit'])) {
                                                     ON b.id_dokter = c.id
                                                   INNER JOIN poli as d
                                                     ON c.id_poli = d.id
+                                                  WHERE a.id_pasien = $id_pasien
                                                   ORDER BY a.id desc");
                     $poli->execute();
                     $no = 0;
@@ -193,7 +204,17 @@ if (isset($_POST['submit'])) {
                       while($p = $poli->fetch()) {
                     ?>
                     <tr>
-                      <th scope="row"><?= $no++ ?></th>
+                      <th scope="row">
+
+                        <?php
+                          ++$no;
+                          if ($no == 1) {
+                            echo "<span class='badge badge-info'>New</span>";
+                          } else {
+                            echo $no;
+                          }
+                        ?>
+                      </th>
                       <td><?= $p['poli_nama']?></td>
                       <td><?= $p['dokter_nama']?></td>
                       <td><?= $p['jadwal_hari']?></td>

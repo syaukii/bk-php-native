@@ -3,7 +3,7 @@ require __DIR__ . '/url.php';
 $host = 'localhost';
 $dbname = 'bk_poliklinik';
 $username = 'root';
-$password = '';
+$password = 'root';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -56,8 +56,7 @@ function tambahJadwalPeriksa($data)
         $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
         $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
 
-        $query = "INSERT INTO jadwal_periksa VALUES ('', '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai')";
-
+        $query = "INSERT INTO jadwal_periksa VALUES (null, '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai')";
         if (mysqli_query($conn, $query)) {
             return mysqli_affected_rows($conn); // Return the number of affected rows
         } else {
