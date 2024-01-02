@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $no_ktp = $_POST['no_ktp'];
   $no_hp = $_POST['no_hp'];
 
-
   //   -------   SITUASI 1 -------
+
   // Cek apakah pasien sudah terdaftar berdasarkan nomor KTP
   $query_check_pasien = "SELECT id, nama ,no_rm FROM pasien WHERE no_ktp = '$no_ktp'";
   $result_check_pasien = mysqli_query($conn, $query_check_pasien);
@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo "<meta http-equiv='refresh' content='0; url=register.php'>";
       die();
   }
-
     $_SESSION['signup'] = true;
     $_SESSION['id'] = $row['id'];
     $_SESSION['username'] = $nama;
@@ -36,10 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
     die();
   }
+  
 
   //   -------   SITUASI 2 -------
 
-  // Query untuk mendapatkan nomor antrian terakhir
+  // Query untuk mendapatkan nomor pasien terakhir - YYYYMM-XXX - 202312-004
   $queryGetRm = "SELECT MAX(SUBSTRING(no_rm, 8)) as last_queue_number FROM pasien";
   $resultRm = mysqli_query($conn, $queryGetRm);
 

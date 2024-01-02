@@ -2,12 +2,13 @@
 include_once("../../config/conn.php");
 session_start();
 
-if (isset($_SESSION['signup'])) {
-  $_SESSION['signup'] = true;
-} else {
-  echo "<meta http-equiv='refresh' content='0; url=../auth/register.php'>";
-  die();
-}
+// if (isset($_SESSION['signup']) || isset($_SESSION['login'])) {
+//   $_SESSION['signup'] = true;
+//   $_SESSION['login'] = true;
+// } else {
+//   echo "<meta http-equiv='refresh' content='0; url=../auth/register.php'>";
+//   die();
+// }
 
 $nama = $_SESSION['username'];
 $akses = $_SESSION['akses'];
