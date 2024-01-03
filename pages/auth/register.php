@@ -2,6 +2,7 @@
 session_start();
 include_once("../../config/conn.php");
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Mendapatkan nilai dari form -- atribut name di input
@@ -9,42 +10,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $alamat = $_POST['alamat'];
   $no_ktp = $_POST['no_ktp'];
   $no_hp = $_POST['no_hp'];
-  // $password = $_POST['password'];
-
-  // Generate no_rm in the format (tahun)(bulan)-(nomorurutanid)
-  
-  $tahun_bulan = "20" . date("ym");
-  $no_rm_query = $pdo->prepare("SELECT MAX(RIGHT(no_rm, 3)) as max_id FROM pasien WHERE SUBSTRING(no_rm, 1, 4) = :tahun_bulan");
-  $no_rm_query->bindParam(':tahun_bulan', $tahun_bulan, PDO::PARAM_STR);
 
 
-  // Ambil ID terakhir yang ditambahkan
-  $query_last_id = "SELECT MAX(id) as max_id FROM pasien";
-  $result_last_id = mysqli_query($conn, $query_last_id);
-  $row_last_id = mysqli_fetch_assoc($result_last_id);
-  $last_inserted_id = $row_last_id['max_id'] ? $row_last_id['max_id'] : 0;
+  //   -------   SITUASI 1 -------
+  // Cek apakah pasien sudah terdaftar berdasarkan nomor KTP
+  $query_check_pasien = "SELECT id, nama ,no_rm FROM pasien WHERE no_ktp = '$no_ktp'";
+  $result_check_pasien = mysqli_query($conn, $query_check_pasien);
 
-  $no_rm = $tahun_bulan . "-" . $last_inserted_id+1;
+  if (mysqli_num_rows($result_check_pasien) > 0) {
+    $row = mysqli_fetch_assoc($result_check_pasien);
 
-  // Hash password sebelum menyimpan ke database (gunakan metode keamanan yang lebih baik di produksi)
-  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    if ( $row['nama'] != $nama) {
+      // ketika nama tidak sesuai dengan no_ktp
+      echo "<script>alert(`Nama pasien tidak sesuai dengan nomor KTP yang terdaftar.`);</script>";
+      echo "<meta http-equiv='refresh' content='0; url=register.php'>";
+      die();
+  }
 
-  // Query untuk menambahkan data ke tabel pasien
-  // $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm, password) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm', '$hashed_password')";
+    $_SESSION['signup'] = true;
+    $_SESSION['id'] = $row['id'];
+    $_SESSION['username'] = $nama;
+    $_SESSION['no_rm'] = $row['no_rm'];
+    $_SESSION['akses'] = 'pasien';
 
+    echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
+    die();
+  }
+
+  //   -------   SITUASI 2 -------
+
+  // Query untuk mendapatkan nomor antrian terakhir
+  $queryGetRm = "SELECT MAX(SUBSTRING(no_rm, 8)) as last_queue_number FROM pasien";
+  $resultRm = mysqli_query($conn, $queryGetRm);
+
+  // Periksa hasil query
+  if (!$resultRm) {
+      die("Query gagal: " . mysqli_error($conn));
+  }
+
+  // Ambil nomor antrian terakhir dari hasil query
+  $rowRm = mysqli_fetch_assoc($resultRm);
+  $lastQueueNumber = $rowRm['last_queue_number'];
+
+  // Jika tabel kosong, atur nomor antrian menjadi 0
+  $lastQueueNumber = $lastQueueNumber ? $lastQueueNumber : 0;
+
+  // ---
+
+  // Mendapatkan tahun saat ini (misalnya, 202312)
+  $tahun_bulan = date("Ym");
+
+  // Membuat nomor antrian baru dengan menambahkan 1 pada nomor antrian terakhir
+  $newQueueNumber = $lastQueueNumber + 1;
+
+  // Menyusun nomor rekam medis dengan format YYYYMM-XXX
+  $no_rm = $tahun_bulan . "-" . str_pad($newQueueNumber, 3, '0', STR_PAD_LEFT);
+
+
+  // ---
+
+  // Lakukan operasi INSERT
   $query = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm')";
-
 
   // Eksekusi query
   if (mysqli_query($conn, $query)) {
-    // Display alert with the generated no_rm
-    echo "<script>alert('Data berhasil ditambahkan. No RM: $no_rm');</script>";
-    // Redirect ke halaman lain
-    header("Location: login-pasien.php");
-    exit();
+    // Set session variables
+    $_SESSION['signup'] = true;  //Menandakan langsung ke dashboard
+    $_SESSION['id'] = mysqli_insert_id($conn); //mengambil id terakhir
+    $_SESSION['username'] = $nama;
+    $_SESSION['no_rm'] = $no_rm;
+    $_SESSION['akses'] = 'pasien';
+
+    // Redirect ke halaman dashboard
+    echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
+    die();
   } else {
     echo "Error: " . $query . "<br>" . mysqli_error($conn);
   }
+
 
   // Tutup koneksi database
   mysqli_close($conn);
@@ -113,17 +156,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
           </div>
         </div>
-
-
-        <!-- pass -->
-        <!-- <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div> -->
         
         <div class="row">
           <div class="col-8">

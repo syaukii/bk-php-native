@@ -3,10 +3,10 @@ include_once "../../../config/conn.php";
 session_start();
 
 if (isset($_SESSION['login'])) {
-    $_SESSION['login'] = true;
+  $_SESSION['login'] = true;
 } else {
-    echo "<meta http-equiv='refresh' content='0; url=..'>";
-    die();
+  echo "<meta http-equiv='refresh' content='0; url=..'>";
+  die();
 }
 
 $nama = $_SESSION['username'];
@@ -14,8 +14,8 @@ $akses = $_SESSION['akses'];
 $id_dokter = $_SESSION['id'];
 
 if ($akses != 'dokter') {
-    echo "<meta http-equiv='refresh' content='0; url=..'>";
-    die();
+  echo "<meta http-equiv='refresh' content='0; url=..'>";
+  die();
 }
 
 $url = $_SERVER['REQUEST_URI'];
@@ -49,10 +49,10 @@ foreach ($detail_periksa as $dp) {
 $title = 'Poliklinik | Edit Periksa Pasien';
 
 // Breadcrumb section
-ob_start();?>
+ob_start(); ?>
 <ol class="breadcrumb float-sm-right">
-  <li class="breadcrumb-item"><a href="<?=$base_dokter;?>">Home</a></li>
-  <li class="breadcrumb-item"><a href="<?=$base_dokter . '/memeriksa_pasien';?>">Daftar Periksa</a></li>
+  <li class="breadcrumb-item"><a href="<?= $base_dokter; ?>">Home</a></li>
+  <li class="breadcrumb-item"><a href="<?= $base_dokter . '/memeriksa_pasien'; ?>">Daftar Periksa</a></li>
   <li class="breadcrumb-item active">Edit Periksa</li>
 </ol>
 <?php
@@ -60,7 +60,7 @@ $breadcrumb = ob_get_clean();
 ob_flush();
 
 // Title Section
-ob_start();?>
+ob_start(); ?>
 Edit Periksa Pasien
 <?php
 $main_title = ob_get_clean();
@@ -74,34 +74,34 @@ ob_start();
     <h3 class="card-title">Edit Periksa</h3>
   </div>
   <div class="card-body">
-  <form action="" method="POST">
+    <form action="" method="POST">
       <!-- Kolom input untuk menambahkan data -->
       <div class="form-group">
         <label for="nama_pasien">Nama Pasien</label>
-        <input type="text" class="form-control" id="nama_pasien" name="nama_pasien" value="<?=$pasiens["nama_pasien"]?>" disabled>
+        <input type="text" class="form-control" id="nama_pasien" name="nama_pasien" value="<?= $pasiens["nama_pasien"] ?>" disabled>
       </div>
 
       <div class="form-group">
         <label for="tgl_periksa">Tanggal Periksa</label>
-        <input type="datetime-local" class="form-control" id="tgl_periksa" name="tgl_periksa" value="<?=$pasiens["tgl_periksa"]?>">
+        <input type="datetime-local" class="form-control" id="tgl_periksa" name="tgl_periksa" value="<?= $pasiens["tgl_periksa"] ?>">
       </div>
 
       <div class="form-group">
         <label for="catatan">Catatan</label>
-        <input type="text" class="form-control" id="catatan" name="catatan" value="<?=$pasiens["catatan"]?>">
+        <input type="text" class="form-control" id="catatan" name="catatan" value="<?= $pasiens["catatan"] ?>">
       </div>
 
       <div class="form-group">
         <label for="nama_pasien">Obat</label>
         <select multiple="" class="form-control" name="obat[]" multiple>
-          <?php foreach ($obat as $obats): ?>
-            <?= var_dump($selected_obat);?>
-            <?php if (in_array($obats['id'], $selected_obat)): ?>
-              <option value="<?=$obats['id'];?>" selected><?=$obats['nama_obat'];?> - <?=$obats['kemasan'];?> - Rp.<?=$obats['harga'];?></option>
-            <?php else: ?>
-              <option value="<?=$obats['id'];?>"><?=$obats['nama_obat'];?> - <?=$obats['kemasan'];?> - Rp.<?=$obats['harga'];?></option>
-            <?php endif;?>
-          <?php endforeach;?>
+          <?php foreach ($obat as $obats) : ?>
+            <?= var_dump($selected_obat); ?>
+            <?php if (in_array($obats['id'], $selected_obat)) : ?>
+              <option value="<?= $obats['id']; ?>|<?= $obats['harga'] ?>" selected><?= $obats['nama_obat']; ?> - <?= $obats['kemasan']; ?> - Rp.<?= $obats['harga']; ?></option>
+            <?php else : ?>
+              <option value="<?= $obats['id']; ?>|<?= $obats['harga'] ?>"> <?= $obats['nama_obat']; ?> - <?= $obats['kemasan']; ?> - Rp.<?= $obats['harga']; ?></option>
+            <?php endif; ?>
+          <?php endforeach; ?>
         </select>
       </div>
 
@@ -114,20 +114,33 @@ ob_start();
 
     <?php
     if (isset($_POST['simpan_periksa'])) {
+      $biaya_periksa = 150000;
+      $total_biaya_obat = 0;
+      $obat = $_POST['obat'];
       $tgl_periksa = $_POST['tgl_periksa'];
       $catatan = $_POST['catatan'];
-      $id_obat = $_POST['obat'];
+      $id_obat = [];
+      for ($i = 0; $i < count($obat); $i++) {
+        $data_obat = explode("|", $obat[$i]);
+        // var_dump($data_obat);
+        $id_obat[] = $data_obat[0];
+        $total_biaya_obat += $data_obat[1];
+      }
+      $total_biaya = $biaya_periksa + $total_biaya_obat;
+      // var_dump($total_biaya);
+      // die();
 
       $id_daftar_poli = $pasiens['id_daftar_poli'];
       $query = "UPDATE periksa SET
                     tgl_periksa = '$tgl_periksa',
-                    catatan = '$catatan'
+                    catatan = '$catatan',
+                    biaya_periksa = '$total_biaya'
                   WHERE id_daftar_poli = $id_daftar_poli";
       $query2 = "DELETE FROM detail_periksa WHERE id_periksa = $id";
       $query3 = "INSERT INTO detail_periksa (id_obat, id_periksa) VALUES ";
 
       for ($i = 0; $i < count($id_obat); $i++) {
-          $query3 .= "($id_obat[$i], $id),";
+        $query3 .= "($id_obat[$i], $id),";
       }
 
       $query3 = substr($query3, 0, -1);
@@ -136,14 +149,14 @@ ob_start();
       $result2 = mysqli_query($conn, $query2);
       $result3 = mysqli_query($conn, $query3);
 
-    if ($result && $result2 && $result3) {
+      if ($result && $result2 && $result3) {
         echo "
           <script>
             alert('Data berhasil diubah');
             document.location.href = '../ ';
           </script>
         ";
-    } else {
+      } else {
         echo "
           <script>
             alert('Data gagal diubah');
@@ -151,9 +164,9 @@ ob_start();
             document.location.href = '../edit.php/$id';
           </script>
         ";
+      }
     }
-  }
-?>
+    ?>
 
   </div>
 </div>
@@ -174,4 +187,4 @@ $js = ob_get_clean();
 ob_flush();
 ?>
 
-<?php include_once "../../../layouts/index.php";?>
+<?php include_once "../../../layouts/index.php"; ?>

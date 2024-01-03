@@ -34,43 +34,29 @@ $periksa = query("SELECT * from periksa");
 $obat = query("SELECT * FROM obat");
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$title = 'Poliklinik | Daftar Periksa Pasien';
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= getenv('APP_NAME') ?> | Poliklinik</title>
+// Breadcrumb section
+ob_start(); ?>
+<ol class="breadcrumb float-sm-right">
+  <li class="breadcrumb-item"><a href="<?= $base_dokter; ?>">Home</a></li>
+  <li class="breadcrumb-item active">Daftar Periksa</li>
+</ol>
+<?php
+$breadcrumb = ob_get_clean();
+ob_flush();
 
-  <?php include "../../../layouts/plugin_header.php" ?>
-</head>
+// Title Section
+ob_start(); ?>
+Daftar Periksa Pasien
+<?php
+$main_title = ob_get_clean();
+ob_flush();
 
-<body class="hold-transition sidebar-mini layout-fixed">
-  <div class="wrapper">
-
-    <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__shake" src="http://<?= $_SERVER['HTTP_HOST'] ?>/bk-poliklinik/dist/img/Logo.png" alt="AdminLTELogo" height="60" width="60">
-    </div>
-
-    <?php include "../../../layouts/header.php" ?>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <!-- <h1 class="m-0">Profil <?= ucwords($_SESSION['akses']) ?></h1> -->
-              <h1 class="m-0">Daftar Periksa</h1>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
-
-      <!-- Main content -->
-      <section class="content">
+// Content section
+ob_start();
+?>
         <div class="card">
           <div class="card-body p-0">
             <table class="table">
@@ -92,7 +78,7 @@ $obat = query("SELECT * FROM obat");
                     <td>
                       <?php if ($pasiens["status_periksa"] == 0) { ?>
                         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPeriksa">Periksa</button> -->
-                        <a href="periksa.php/<?= $pasiens['id_periksa'] ?>" class="btn btn-primary"><i class="fas fa-stethoscope"></i> Periksa </a>
+                        <a href="create.php/<?= $pasiens['id_pasien'] ?>" class="btn btn-primary"><i class="fas fa-stethoscope"></i> Periksa </a>
                         <?php } else { ?>
                           <a href="edit.php/<?= $pasiens['id_periksa'] ?>" class="btn btn-warning"><i class="fa fa-edit"></i> Edit </a>
                       <?php } ?>
@@ -165,13 +151,14 @@ $obat = query("SELECT * FROM obat");
           }
         }
         ?>
-
-      </section>
-      <!-- /.content -->
     </div>
-    <?php include "../../../layouts/footer.php"; ?>
-  </div>
-  <?php include "../../../layouts/pluginsexport.php"; ?>
-</body>
 
-</html>
+    <?php
+$content = ob_get_clean();
+ob_flush();
+
+// // JS Section
+// ob_start();
+?>
+
+  <?php include_once "../../../layouts/index.php"; ?>

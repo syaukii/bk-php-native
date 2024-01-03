@@ -58,7 +58,7 @@ ob_start();
       </thead>
       <tbody>
         <?php
-        $no = 1;
+        $index = 1;
         $data = $pdo->query("SELECT * FROM pasien");
         if ($data->rowCount() == 0) {
           echo "<tr><td colspan='7' align='center'>Tidak ada data</td></tr>";
@@ -66,7 +66,7 @@ ob_start();
           while ($d = $data->fetch()) {
         ?>
             <tr>
-              <td><?= $no++; ?></td>
+              <td><?= $index++; ?></td>
               <td><?= $d['nama']; ?></td>
               <td><?= $d['alamat']; ?></td>
               <td><?= $d['no_ktp']; ?></td>
@@ -131,6 +131,7 @@ ob_start();
                         <div class="grid-item"><?= $da['obat']; ?></div>
                         <div class="grid-item"><?= formatRupiah($da['biaya_periksa']); ?></div>
                       <?php endwhile ?>
+                      <?php $no = 1; ?>
                     </div>
                   <?php endif ?>
                   <!-- Akhir dari Tabel -->

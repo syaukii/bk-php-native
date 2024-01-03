@@ -9,11 +9,11 @@
             <a href="#" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
+            <a href="#" class="nav-link">Contact 1</a>
         </li>
-        <!-- <li class="nav-item d-none d-sm-inline-block">
+        <li class="nav-item d-none d-sm-inline-block">
             <a href="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/pages/auth/destroy.php" class="nav-link">Logout</a>
-        </li> -->
+        </li>
     </ul>
 
     <!-- Right navbar links -->
