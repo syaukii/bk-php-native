@@ -24,6 +24,7 @@ $id = $url[count($url) - 1];
 
 $pasiens = query("SELECT
                           pasien.id AS id_pasien,
+                          periksa.biaya_periksa AS biaya_periksa,
                           pasien.nama AS nama_pasien,
                           periksa.catatan AS catatan,
                           periksa.tgl_periksa AS tgl_periksa,
@@ -93,7 +94,7 @@ ob_start();
 
       <div class="form-group">
         <label for="nama_pasien">Obat</label>
-        <select multiple="" class="form-control" name="obat[]" multiple>
+        <select multiple="" class="form-control" name="obat[]" id="id_obat" multiple>
           <?php foreach ($obat as $obats) : ?>
             <?= var_dump($selected_obat); ?>
             <?php if (in_array($obats['id'], $selected_obat)) : ?>
@@ -103,6 +104,10 @@ ob_start();
             <?php endif; ?>
           <?php endforeach; ?>
         </select>
+      </div>
+      <div class="form-group">
+          <label for="total_harga">Total Harga</label>
+          <input type="text" class="form-control" id="harga" name="harga" readonly value="<?= $pasiens["biaya_periksa"] ?>">
       </div>
 
       <!-- Tombol untuk mengirim form -->
@@ -170,6 +175,29 @@ ob_start();
 
   </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#id_obat').select2();
+        $('#id_obat').on('change.select2', function (e) {
+            var selectedValuesArray = $(this).val();
+            
+            // Calculate the sum
+            var sum = 150000;
+            if (selectedValuesArray) {
+                for (var i = 0; i < selectedValuesArray.length; i++) {
+                    // Split the value and get the second part after "|"
+                    var parts = selectedValuesArray[i].split("|");
+                    console.log(parts);
+                    if (parts.length === 2) {
+                    sum += parseFloat(parts[1]);
+                    }
+                }
+            }
+            
+            $('#harga').val(sum); 
+        });
+    });
+</script>
 <?php
 $content = ob_get_clean();
 ob_flush();

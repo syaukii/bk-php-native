@@ -160,15 +160,18 @@ function daftarPoli($data)
         $id_jadwal = $data["id_jadwal"];
         $keluhan = $data["keluhan"];
         $no_antrian = getLatestNoAntrian($id_jadwal, $pdo) + 1;
+        $status = 0;
 
-        $query = "INSERT INTO daftar_poli VALUES (NULL, :id_pasien, :id_jadwal, :keluhan, :no_antrian)";
+        $query = "INSERT INTO daftar_poli VALUES (NULL, :id_pasien, :id_jadwal, :keluhan, :no_antrian, :status_periksa)";
+        
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':id_pasien', $id_pasien);
         $stmt->bindParam(':id_jadwal', $id_jadwal);
         $stmt->bindParam(':keluhan', $keluhan);
         $stmt->bindParam(':no_antrian', $no_antrian);
-
+        $stmt->bindParam(':status_periksa', $status);
         if ($stmt->execute()) {
+            
             return $stmt->rowCount(); // Return the number of affected rows
         } else {
             // Handle the error
