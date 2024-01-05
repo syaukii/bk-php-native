@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
                 <input type="hidden" value="<?= $id_pasien ?>" name="id_pasien">
                 <div class="mb-3">
                   <label for="no_rm" class="form-label">Nomor Rekam Medis</label>
-                  <input type="text " class="form-control" id="no_rm" placeholder="nomor rekam medis" name="no_rm" value="<?= $no_rm ?>">
+                  <input type="text " class="form-control" id="no_rm" placeholder="nomor rekam medis" name="no_rm" value="<?= $no_rm ?>" disabled>
                 </div>
 
                 <div class="mb-3">
