@@ -54,9 +54,9 @@
                 <div class="row gx-5">
                     <div class="col-lg mb-5 mb-lg-0">
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-person"></i></div>
-                        <h2 class="h4 fw-bolder">Login Sebagai Pasien</h2>
-                        <p>Apabila Anda adalah seorang Pasien, silahkan Login terlebih dahulu untuk melakukan pendaftaran sebagai Pasien!</p>
-                        <a class="text-decoration-none" href="http://<?= $_SERVER['HTTP_HOST'] ?>/bk-poliklinik/pages/auth/login-pasien.php">
+                        <h2 class="h4 fw-bolder">Registrasi Sebagai Pasien</h2>
+                        <p>Apabila Anda adalah seorang Pasien, silahkan Registrasi terlebih dahulu untuk melakukan pendaftaran sebagai Pasien!</p>
+                        <a class="text-decoration-none" href="http://<?= $_SERVER['HTTP_HOST'] ?>/bk-poliklinik/pages/auth/register.php">
                             Klik Link Berikut
                             <i class="bi bi-arrow-right"></i>
                         </a>
