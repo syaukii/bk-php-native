@@ -105,7 +105,7 @@ CREATE TABLE `jadwal_periksa` (
   `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') DEFAULT NULL,
   `jam_mulai` time DEFAULT NULL,
   `jam_selesai` time DEFAULT NULL,
-  'aktif' enum('Y','N') DEFAULT 'T'
+  `aktif` enum('Y','T') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

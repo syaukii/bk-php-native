@@ -104,12 +104,12 @@ ob_start();?>
         <!-- radio button input -->
         <label for="aktif">Status</label>
         <div class="form-check">
-          <input type="radio" class="form-check-input" name="aktif" value="Y" <?php if($jadwal['aktif'] == "Y"){echo "checked";} ?>>
-          <label for="aktif" class="form-check-label">Aktif</label>
+          <input type="radio" id="aktif1" class="form-check-input" name="aktif" value="Y" <?php if($jadwal['aktif'] == "Y"){echo "checked";} ?>>
+          <label for="aktif1" class="form-check-label">Aktif</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" name="aktif" value="T" <?php if($jadwal['aktif'] == "T"){echo "checked";} ?>>
-          <label for="aktif" class="form-check-label">Tidak Aktif</label>
+          <input type="radio" id="tidak-aktif" class="form-check-input" name="aktif" value="T" <?php if($jadwal['aktif'] == "T"){echo "checked";} ?>>
+          <label for="tidak-aktif" class="form-check-label">Tidak Aktif</label>
         </div>
       </div>
       <div class="d-flex justify-content-end">
