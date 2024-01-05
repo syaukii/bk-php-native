@@ -83,11 +83,16 @@ ob_start();
 
             <div class="form-group">
                 <label for="nama_pasien">Obat</label>
-                <select multiple="" class="form-control" name="obat[]" multiple>
+                <select class="form-control" name="obat[]" multiple id="id_obat">
                     <?php foreach ($obat as $obats) : ?>
                         <option value="<?= $obats['id']; ?>|<?= $obats['harga'] ?>"><?= $obats['nama_obat']; ?> - <?= $obats['kemasan']; ?> - Rp.<?= $obats['harga']; ?></option>
                     <?php endforeach; ?>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="total_harga">Total Harga</label>
+                <input type="text" class="form-control" id="harga" name="harga" readonly>
             </div>
 
             <!-- Tombol untuk mengirim form -->
@@ -105,7 +110,6 @@ ob_start();
             $id_obat = [];
             for ($i = 0; $i < count($obat); $i++) {
                 $data_obat = explode("|", $obat[$i]);
-                // var_dump($data_obat);
                 $id_obat[] = $data_obat[0];
                 $total_biaya_obat += $data_obat[1];
             }
@@ -147,7 +151,27 @@ ob_start();
         ?>
     </div>
 </div>
-
+<script>
+    $(document).ready(function() {
+        $('#id_obat').select2();
+        $('#id_obat').on('change.select2', function (e) {
+            var selectedValuesArray = $(this).val();
+            
+            // Calculate the sum
+            var sum = 150000;
+            if (selectedValuesArray) {
+                for (var i = 0; i < selectedValuesArray.length; i++) {
+                    // Split the value and get the second part after "|"
+                    var parts = selectedValuesArray[i].split("|");
+                    if (parts.length === 2) {
+                    sum += parseFloat(parts[1]);
+                    }
+                }
+            }
+            $('#harga').val(sum); 
+        });
+    });
+</script>
 <?php
 $content = ob_get_clean();
 ob_flush();

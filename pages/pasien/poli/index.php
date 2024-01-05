@@ -142,6 +142,19 @@ if (isset($_POST['submit'])) {
                   <label for="inputJadwal" class="form-label">Pilih Jadwal</label>
                   <select id="inputJadwal" class="form-control" name="id_jadwal">
                     <option value="900">Open this select menu</option>
+                    <?php
+                    $data = $pdo->prepare("SELECT * FROM jadwal_periksa");
+                    $data->execute();
+                    if ($data->rowCount() == 0) {
+                      echo "<option>Tidak ada poli</option>";
+                    } else {
+                      while($d = $data->fetch()) {
+                    ?>
+                      <option value="<?= $d['id'] ?>"><?= $d['hari'] ?>,<?= $d['jam_mulai'] ?> - <?= $d['jam_selesai'] ?></option> 
+                    <?php
+                      }
+                    }
+                    ?>
                   </select>
                 </div>
 
@@ -157,7 +170,7 @@ if (isset($_POST['submit'])) {
           <!-- End registrarion poli -->
         </div>
 
-        <div class="col">
+        <div class="col-8">
           <!-- Registration poli history -->
           <div class="card">
             <h5 class="card-header bg-primary">Riwayat daftar poli</h5>

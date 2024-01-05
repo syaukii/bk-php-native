@@ -120,6 +120,7 @@ ob_start();
                       <div class="grid-item">Keluhan</div>
                       <div class="grid-item">Catatan</div>
                       <div class="grid-item">Obat</div>
+                      <div class="grid-item">Biaya Periksa</div>
                       <?php while ($da = $data2->fetch()) : ?>
                         <div class="grid-item"><?= $no++; ?></div>
                         <div class="grid-item"><?= $da['tgl_periksa']; ?></div>
@@ -128,7 +129,8 @@ ob_start();
                         <div class="grid-item"><?= $da['keluhan']; ?></div>
                         <div class="grid-item"><?= $da['catatan']; ?></div>
                         <div class="grid-item"><?= $da['obat']; ?></div>
-                      <?php endwhile; ?>
+                        <div class="grid-item"><?= formatRupiah($da['biaya_periksa']); ?></div>
+                      <?php endwhile ?>
                       <?php $no = 1; ?>
                     </div>
                   <?php endif ?>

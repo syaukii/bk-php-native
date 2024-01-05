@@ -9,7 +9,7 @@
   <style>
     .grid-container {
       display: grid;
-      grid-template-columns: 50px repeat(6, 1fr);
+      grid-template-columns: 50px repeat(7, 1fr);
       padding: 15px;
       background-color: #f8f9fa;
       border: 1px solid #dee2e6;
