@@ -36,22 +36,13 @@ if (isset($_POST["submit"])) {
       ";
         die;
     } else {
-        // cek apakah data berhasil di tambahkan atau tidak
-        if (updateJadwalPeriksa($_POST, $id) > 0) {
-            echo "
-            <script>
-                alert('Data berhasil ditambahkan');
-                document.location.href = '../';
-            </script>
-        ";
-        } else {
-            echo "
-            <script>
-                alert('Data Gagal ditambahkan');
-                document.location.href = '../';
-            </script>
-        ";
-        }
+        // cek apakah data berhasil di ubah atau tidak
+        updateJadwalPeriksa($_POST, $id);
+        echo "
+          <script>
+              alert('Data berhasil diubah');
+              document.location.href = '../';
+          </script>";
     }
 }
 ?>
@@ -108,6 +99,18 @@ ob_start();?>
       <div class="form-group">
         <label for="jam_selesai">Jam Selesai</label>
         <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" value="<?=date('H:i', strtotime($jadwal['jam_selesai']))?>">
+      </div>
+      <div class="form-group">
+        <!-- radio button input -->
+        <label for="aktif">Status</label>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" name="aktif" value="Y" <?php if($jadwal['aktif'] == "Y"){echo "checked";} ?>>
+          <label for="aktif" class="form-check-label">Aktif</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" name="aktif" value="T" <?php if($jadwal['aktif'] == "T"){echo "checked";} ?>>
+          <label for="aktif" class="form-check-label">Tidak Aktif</label>
+        </div>
       </div>
       <div class="d-flex justify-content-end">
         <button type="submit" name="submit" id="submitButton" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>

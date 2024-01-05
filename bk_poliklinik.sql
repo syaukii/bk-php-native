@@ -104,16 +104,17 @@ CREATE TABLE `jadwal_periksa` (
   `id_dokter` int(11) NOT NULL,
   `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') DEFAULT NULL,
   `jam_mulai` time DEFAULT NULL,
-  `jam_selesai` time DEFAULT NULL
+  `jam_selesai` time DEFAULT NULL,
+  'aktif' enum('Y','N') DEFAULT 'T'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `jadwal_periksa`
 --
 
-INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
-(1, 11, 'Selasa', '07:00:00', '09:00:00'),
-(2, 11, 'Rabu', '08:30:00', '10:20:00');
+INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `aktif`) VALUES
+(1, 11, 'Selasa', '07:00:00', '09:00:00', 'Y'),
+(2, 11, 'Rabu', '08:30:00', '10:20:00', 'T');
 
 -- --------------------------------------------------------
 

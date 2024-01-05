@@ -38,7 +38,14 @@ if (isset($_POST["submit"])) {
                 document.location.href = '../jadwal_periksa';
             </script>
         ";
-    } else {
+    } else if (tambahJadwalPeriksa($_POST) == -2) {
+        echo "
+            <script>
+                alert('Data Gagal ditambahkan, jadwal periksa sudah ada');
+                document.location.href = '../jadwal_periksa/create.php';
+            </script>
+        ";
+    } else if (tambahJadwalPeriksa($_POST) == -1) {
         echo "
             <script>
                 alert('Data Gagal ditambahkan');

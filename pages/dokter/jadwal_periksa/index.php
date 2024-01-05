@@ -61,6 +61,7 @@ ob_start();
           <th>Hari</th>
           <th>Jam Mulai</th>
           <th>Jam Selesai</th>
+          <th>Status</th>
           <th>Aksi</th>
         </tr>
       </thead>
@@ -72,7 +73,8 @@ ob_start();
                                 p.id as id,
                                 p.hari as hari,
                                 p.jam_mulai as jam_mulai,
-                                p.jam_selesai as jam_selesai
+                                p.jam_selesai as jam_selesai,
+                                p.aktif as aktif
                                 FROM jadwal_periksa p INNER JOIN dokter d ON p.id_dokter = d.id
                                 WHERE d.id = '$id'");
         $data->execute();
@@ -87,9 +89,9 @@ ob_start();
           <td><?= $d['hari'] ?></td>
           <td><?= $d['jam_mulai'] ?></td>
           <td><?= $d['jam_selesai'] ?></td>
+          <td><?= $d['aktif'] == 'Y' ? 'Aktif' : 'Tidak Aktif' ?></td>
           <td>
             <a href="edit.php/<?= $d['id']?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
-            <a href="delete.php/<?= $d['id']?>" class="btn btn-danger btn-sm delete-button"><i class="fa fa-trash"></i> Hapus</a>
           </td>
         </tr>
         <?php

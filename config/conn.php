@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/url.php';
 $host = 'localhost';
-$dbname = 'bk_poliklinik';
+$dbname = 'poliklinik_bk';
 $username = 'root';
 $password = '';
 
@@ -55,8 +55,22 @@ function tambahJadwalPeriksa($data)
         $hari = mysqli_real_escape_string($conn, $data["hari"]);
         $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
         $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
+        $aktif = 'T';
 
-        $query = "INSERT INTO jadwal_periksa VALUES (null, '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai')";
+        // Check if the jadwal periksa already exists for another dokter
+        // Check as well if the time range is already taken by another dokter
+        $existing_data = mysqli_query($conn, "SELECT * FROM jadwal_periksa WHERE id_dokter != $id_dokter AND hari = '$hari'");
+        if (mysqli_num_rows($existing_data) > 0) {
+            while ($row = mysqli_fetch_assoc($existing_data)) {
+                $query_existing = "SELECT * FROM jadwal_periksa WHERE id_dokter != $id_dokter AND hari = '$hari' AND jam_mulai <= '$jam_mulai' AND jam_selesai >= '$jam_mulai' OR jam_mulai <= '$jam_selesai' AND jam_selesai >= '$jam_selesai' OR jam_mulai >= '$jam_mulai' AND jam_selesai <= '$jam_selesai'";
+                $checkJadwalPeriksa = mysqli_query($conn, $query_existing);
+            }
+            if (mysqli_num_rows($checkJadwalPeriksa) > 0) {
+                return -2; // Return -2 if the jadwal periksa already exists
+            }
+        }
+
+        $query = "INSERT INTO jadwal_periksa VALUES (null, '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai', '$aktif')";
         if (mysqli_query($conn, $query)) {
             return mysqli_affected_rows($conn); // Return the number of affected rows
         } else {
@@ -77,8 +91,15 @@ function updateJadwalPeriksa($data, $id)
         $hari = mysqli_real_escape_string($conn, $data["hari"]);
         $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
         $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
+        $aktif = mysqli_real_escape_string($conn, $data["aktif"] );
 
-        $query = "UPDATE jadwal_periksa SET hari = '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai' WHERE id = $id ";
+        if ($aktif == 'Y') {
+            // Make jadwal apapun yang sudah aktif menjadi tidak aktif
+            $query = "UPDATE jadwal_periksa SET aktif = 'T' WHERE aktif = 'Y'";
+            mysqli_query($conn, $query);
+        }
+
+        $query = "UPDATE jadwal_periksa SET hari = '$hari', jam_mulai = '$jam_mulai', jam_selesai = '$jam_selesai', aktif = '$aktif' WHERE id = $id ";
 
         if (mysqli_query($conn, $query)) {
             return mysqli_affected_rows($conn); // Return the number of affected rows
