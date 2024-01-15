@@ -75,13 +75,14 @@ ob_start();
         $no_rm = $no_rm;
     } else {
         // Jika menambahkan data baru, hitung Nomor RM sesuai format
-        $tahun_bulan = "20" . date("ym");
-        $query_last_id = "SELECT MAX(id) as max_id FROM pasien";
+        $tahun_bulan = date("Ym");
+        $query_last_id = "SELECT MAX(CAST(SUBSTRING(no_rm, 8) AS SIGNED)) as last_queue_number FROM pasien";
         $result_last_id = $pdo->query($query_last_id);
         $row_last_id = $result_last_id->fetch(PDO::FETCH_ASSOC);
-        $last_inserted_id = $row_last_id['max_id'] ? $row_last_id['max_id'] : 0;
-
-        $no_rm = $tahun_bulan . "-" . ($last_inserted_id + 1);
+        $last_inserted_id = $row_last_id['last_queue_number'] ? $row_last_id['last_queue_number'] : 0;
+        $newQueueNumber = $last_inserted_id + 1;
+        $no_rm = $tahun_bulan . "-" . str_pad($newQueueNumber, 3, '0', STR_PAD_LEFT);
+       
     }
     ?>
         <div class="row mt-3">
@@ -114,7 +115,7 @@ ob_start();
             <label for="no_rm" class="form-label fw-bold">
                 Nomor RM
             </label>
-            <input type="text" class="form-control" required name="no_rm" id="no_rm" placeholder="no_rm" value="<?php echo $no_rm ?>">
+            <input type="text" class="form-control" required name="no_rm" id="no_rm" disabled placeholder="no_rm" value="<?php echo $no_rm ?>">
         </div>
 
 
