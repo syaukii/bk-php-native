@@ -2,7 +2,6 @@
 session_start();
 include_once("../../config/conn.php");
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Mendapatkan nilai dari form -- atribut name di input
@@ -20,12 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (mysqli_num_rows($result_check_pasien) > 0) {
     $row = mysqli_fetch_assoc($result_check_pasien);
 
-    if ( $row['nama'] != $nama) {
+    if ($row['nama'] != $nama) {
       // ketika nama tidak sesuai dengan no_ktp
       echo "<script>alert(`Nama pasien tidak sesuai dengan nomor KTP yang terdaftar.`);</script>";
       echo "<meta http-equiv='refresh' content='0; url=register.php'>";
       die();
-  }
+    }
+
     $_SESSION['signup'] = true;
     $_SESSION['id'] = $row['id'];
     $_SESSION['username'] = $nama;
@@ -35,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<meta http-equiv='refresh' content='0; url=../pasien'>";
     die();
   }
-  
 
   //   -------   SITUASI 2 -------
 
@@ -45,12 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Periksa hasil query
   if (!$resultRm) {
-      die("Query gagal: " . mysqli_error($conn));
+    die("Query gagal: " . mysqli_error($conn));
   }
 
   // Ambil nomor antrian terakhir dari hasil query
   $rowRm = mysqli_fetch_assoc($resultRm);
   $lastQueueNumber = $rowRm['last_queue_number'];
+  //005
 
   // Jika tabel kosong, atur nomor antrian menjadi 0
   $lastQueueNumber = $lastQueueNumber ? $lastQueueNumber : 0;
@@ -64,8 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $newQueueNumber = $lastQueueNumber + 1;
 
   // Menyusun nomor rekam medis dengan format YYYYMM-XXX
+  //5
   $no_rm = $tahun_bulan . "-" . str_pad($newQueueNumber, 3, '0', STR_PAD_LEFT);
-
 
   // ---
 
@@ -88,14 +88,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Error: " . $query . "<br>" . mysqli_error($conn);
   }
 
-
   // Tutup koneksi database
   mysqli_close($conn);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -110,82 +109,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+
 <body class="hold-transition register-page">
-<div class="register-box">
-  <div class="card card-outline card-primary">
-    <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Poli</b>klinik</a>
-    </div>
-    <div class="card-body">
-      <p class="login-box-msg">Register a new account</p>
-
-      <!-- nama -->
-      <form action="" method="post">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" required placeholder="Full name" name="nama" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
+  <div class="register-box">
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <a href="../../index2.html" class="h1"><b>Poli</b>klinik</a>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">Register a new account</p>
+        <!-- nama -->
+        <form action="" method="post">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" required placeholder="Full name" name="nama">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- alamat -->
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" required placeholder="alamat" name="alamat" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fa fa-map-marker"></span>
+          <!-- alamat -->
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" required placeholder="alamat" name="alamat">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fa fa-map-marker"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- no ktp -->
-        <div class="input-group mb-3">
-          <input type="number" class="form-control" required placeholder="No ktp" name="no_ktp" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fa fa-address-book"></span>
+          <!-- no ktp -->
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" required placeholder="No ktp" name="no_ktp">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fa fa-address-book"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- no hp -->
-        <div class="input-group mb-3">
-          <input type="number" class="form-control" required placeholder="NO HP" name="no_hp" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-phone-square"></span>
+          <!-- no hp -->
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" required placeholder="NO HP" name="no_hp">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-phone-square"></span>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="agreeTerms" required name="terms" value="agree">
-              <label for="agreeTerms">
-               I agree to the <a href="#">terms</a>
-              </label>
+          <div class="row">
+            <div class="col-8">
+              <div class="icheck-primary">
+                <input type="checkbox" id="agreeTerms" required name="terms" value="agree">
+                <label for="agreeTerms">
+                  I agree to the <a href="#">terms</a>
+                </label>
+              </div>
             </div>
+            <!-- /.col -->
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </div>
+            <!-- /.col -->
           </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-
-    </div>
-    <!-- /.form-box -->
-  </div><!-- /.card -->
-</div>
-<!-- /.register-box -->
-
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-
+        </form>
+      </div>
+      <!-- /.form-box -->
+    </div><!-- /.card -->
+  </div>
+  <!-- /.register-box -->
+  <!-- jQuery -->
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../dist/js/adminlte.min.js"></script>
 </body>
+
 </html>

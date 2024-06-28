@@ -22,20 +22,18 @@ $url = explode("/", $url);
 $id = $url[count($url) - 1];
 
 // Hapus data
-// if (hapusJadwalPeriksa($id) > 0) {
-//   echo "
-//     <script>
-//         alert('Data berhasil dihapus');
-//         document.location.href = '../';
-//     </script>
-//   ";
-// } else {
-//   echo "
-//     <script>
-//         alert('Data gagal dihapus');
-//         document.location.href = '../';
-//     </script>
-//   ";
-// }
-
-?>
+if (hapusJadwalPeriksa($id) > 0) {
+  echo "
+    <script>
+        alert('Data berhasil dihapus');
+        document.location.href = '../';
+    </script>
+  ";
+} else {
+  echo "
+    <script>
+        alert('Data gagal dihapus');
+        document.location.href = '../';
+    </script>
+  ";
+}

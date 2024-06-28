@@ -27,10 +27,10 @@ if ($akses != 'pasien') {
 $title = 'Poliklinik | Tambah Jadwal Periksa';
 
 // Breadcrumb Section
-ob_start();?>
+ob_start(); ?>
 <ol class="breadcrumb float-sm-right">
-  <li class="breadcrumb-item"><a href="<?=$base_pasien;?>">Home</a></li>
-  <li class="breadcrumb-item"><a href="<?=$base_pasien . '/poli';?>">Poli</a></li>
+  <li class="breadcrumb-item"><a href="<?= $base_pasien; ?>">Home</a></li>
+  <li class="breadcrumb-item"><a href="<?= $base_pasien . '/poli'; ?>">Poli</a></li>
   <li class="breadcrumb-item active">Detail Poli</li>
 </ol>
 <?php
@@ -38,22 +38,22 @@ $breadcrumb = ob_get_clean();
 ob_flush();
 
 // Title Section
-ob_start();?>
+ob_start(); ?>
 Detail Poli
 <?php
 $main_title = ob_get_clean();
 ob_flush();
 
 // Content Section
-ob_start();?>
+ob_start(); ?>
 
 <div class="card">
   <div class="card-header bg-primary">
     <h3 class="card-title">Detail Poli</h3>
   </div>
   <div class="card-body">
-  <?php
-                    $poli = $pdo->prepare("SELECT d.nama_poli as poli_nama,
+    <?php
+    $poli = $pdo->prepare("SELECT d.nama_poli as poli_nama,
                                                   c.nama as dokter_nama, 
                                                   b.hari as jadwal_hari, 
                                                   b.jam_mulai as jadwal_mulai, 
@@ -70,54 +70,54 @@ ob_start();?>
                                                   INNER JOIN poli as d
                                                     ON c.id_poli = d.id
                                                   WHERE a.id = $id_poli");
-                    $poli->execute();
-                    $no = 0;
-                    if ($poli->rowCount() == 0) {
-                      echo "Tidak da data";
-                    } else {
-                      while($p = $poli->fetch()) {
-                    ?>
+    $poli->execute();
+    $no = 0;
+    if ($poli->rowCount() == 0) {
+      echo "Tidak da data";
+    } else {
+      while ($p = $poli->fetch()) {
+    ?>
 
-                      <center>
-                    
-                      <h5>Nama Poli</h5>
-                      <?= $p['poli_nama']?>
-                      <hr>
+        <center>
 
-                      <h5>Nama Dokter</h5>
-                      <?= $p['dokter_nama']?>
-                      <hr>
+          <h5>Nama Poli</h5>
+          <?= $p['poli_nama'] ?>
+          <hr>
 
-                      <h5>Hari</h5>
-                      <?= $p['jadwal_hari']?>
-                      <hr>
+          <h5>Nama Dokter</h5>
+          <?= $p['dokter_nama'] ?>
+          <hr>
 
-                      <h5>Mulai</h5>
-                      <?= $p['jadwal_mulai']?>
-                      <hr>
+          <h5>Hari</h5>
+          <?= $p['jadwal_hari'] ?>
+          <hr>
 
-                      <h5>Selesai</h5>
-                      <?= $p['jadwal_selesai']?>
-                      <hr>
+          <h5>Mulai</h5>
+          <?= $p['jadwal_mulai'] ?>
+          <hr>
 
-                      <h5>Nomor Antrian</h5>
-                      <button class="btn btn-success"><?= $p['antrian']?></button>
-                      <hr>
+          <h5>Selesai</h5>
+          <?= $p['jadwal_selesai'] ?>
+          <hr>
 
-                      </center>
+          <h5>Nomor Antrian</h5>
+          <button class="btn btn-success"><?= $p['antrian'] ?></button>
+          <hr>
 
-                    <?php
-                      }
-                    }
-                    ?>
+        </center>
+
+    <?php
+      }
+    }
+    ?>
   </div>
 </div>
 
-<a href="<?=$base_pasien . '/poli';?>" class="btn btn-primary btn-block">Kembali</a>
+<a href="<?= $base_pasien . '/poli'; ?>" class="btn btn-primary btn-block">Kembali</a>
 
 <?php
 $content = ob_get_clean();
 ob_flush();
 ?>
 
-<?php include_once "../../../layouts/index.php";?>
+<?php include_once "../../../layouts/index.php"; ?>

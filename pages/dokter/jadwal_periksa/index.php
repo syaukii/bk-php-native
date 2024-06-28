@@ -2,6 +2,29 @@
 include_once("../../../config/conn.php");
 session_start();
 
+// Handle AJAX request
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id']) && isset($_POST['status'])) {
+  $id = $_POST['id'];
+  $status = $_POST['status'];
+
+  // Ubah status pada jadwal yang lain menjadi 'T' jika status baru adalah 'Y'
+  if ($status == 'Y') {
+    $pdo->prepare("UPDATE jadwal_periksa SET aktif = 'T' WHERE aktif = 'Y'")->execute();
+  }
+
+  // Update status jadwal yang dipilih
+  $stmt = $pdo->prepare("UPDATE jadwal_periksa SET aktif = ? WHERE id = ?");
+  $stmt->execute([$status, $id]);
+
+  if ($stmt->rowCount()) {
+    echo json_encode(['success' => true]);
+  } else {
+    echo json_encode(['success' => false]);
+  }
+  exit; // End the script after handling AJAX request
+}
+
+
 if (isset($_SESSION['login'])) {
   $_SESSION['login'] = true;
 } else {
@@ -22,7 +45,7 @@ if ($akses != 'dokter') {
 <?php
 $title = 'Poliklinik | Jadwal Periksa';
 // Breadcrumb section
-ob_start();?>
+ob_start(); ?>
 <ol class="breadcrumb float-sm-right">
   <li class="breadcrumb-item"><a href="<?= $base_dokter; ?>">Home</a></li>
   <li class="breadcrumb-item active">Jadwal Periksa</li>
@@ -32,7 +55,7 @@ $breadcrumb = ob_get_clean();
 ob_flush();
 
 // Title Section
-ob_start();?>
+ob_start(); ?>
 Jadwal Periksa
 <?php
 $main_title = ob_get_clean();
@@ -78,22 +101,30 @@ ob_start();
                                 FROM jadwal_periksa p INNER JOIN dokter d ON p.id_dokter = d.id
                                 WHERE d.id = '$id'");
         $data->execute();
+
         if ($data->rowCount() == 0) {
           echo "<tr><td colspan='7' align='center'>Tidak ada data</td></tr>";
         } else {
-          while($d = $data->fetch()) {
+          while ($d = $data->fetch()) {
         ?>
-        <tr>
-          <td><?= $no++; ?></td>
-          <td><?= $d['nama_dokter'] ?></td>
-          <td><?= $d['hari'] ?></td>
-          <td><?= $d['jam_mulai'] ?></td>
-          <td><?= $d['jam_selesai'] ?></td>
-          <td><?= $d['aktif'] == 'Y' ? 'Aktif' : 'Tidak Aktif' ?></td>
-          <td>
-            <a href="edit.php/<?= $d['id']?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
-          </td>
-        </tr>
+            <tr>
+              <td><?= $no++; ?></td>
+              <td><?= $d['nama_dokter'] ?></td>
+              <td><?= $d['hari'] ?></td>
+              <td><?= $d['jam_mulai'] ?></td>
+              <td><?= $d['jam_selesai'] ?></td>
+              <!-- aksi diubah menjadi button -->
+              <td>
+                <button class="btn btn-status btn-sm" data-id="<?= $d['id'] ?>" data-status="<?= $d['aktif'] ?>">
+                  <?= $d['aktif'] == 'Y' ? 'Aktif' : 'Tidak Aktif' ?>
+                </button>
+              </td>
+              
+              <td>
+                <a href="edit.php/<?= $d['id'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
+              </td>
+
+            </tr>
         <?php
           }
         }
@@ -107,7 +138,7 @@ $content = ob_get_clean();
 ob_flush();
 
 // JS Section
-ob_start();?>
+ob_start(); ?>
 <script>
   $(document).ready(function() {
     $('.delete-button').on('click', function(e) {
@@ -115,6 +146,53 @@ ob_start();?>
     });
   });
 </script>
+
+<!-- change -->
+<script>
+  $(document).ready(function() {
+    $('.btn-status').on('click', function(e) {
+      e.preventDefault();
+      let button = $(this);
+      let id = button.data('id');
+      let currentStatus = button.data('status');
+      let newStatus = currentStatus === 'Y' ? 'T' : 'Y';
+
+      $.ajax({
+        url: '', // The current file will handle the request
+        type: 'POST',
+        data: {
+          id: id,
+          status: newStatus
+        },
+        success: function(response) {
+          let result = JSON.parse(response);
+          if (result.success) {
+            if (newStatus === 'Y') {
+              // Set all other buttons to 'Tidak Aktif'
+              $('.btn-status').each(function() {
+                let otherButton = $(this);
+                if (otherButton.data('id') !== id) {
+                  otherButton.text('Tidak Aktif');
+                  otherButton.data('status', 'T');
+                }
+              });
+            }
+            // Update the clicked button
+            button.text(newStatus === 'Y' ? 'Aktif' : 'Tidak Aktif');
+            button.data('status', newStatus);
+          } else {
+            alert('Gagal mengubah status');
+          }
+        },
+        error: function() {
+          alert('Terjadi kesalahan pada server.');
+        }
+      });
+    });
+  });
+</script>
+
+
 <?php
 $js = ob_get_clean();
 ob_flush();

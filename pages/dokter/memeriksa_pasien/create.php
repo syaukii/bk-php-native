@@ -92,7 +92,7 @@ ob_start();
 
             <div class="form-group">
                 <label for="total_harga">Total Harga</label>
-                <input type="text" class="form-control" id="harga" name="harga" readonly>
+                <input type="text" class="form-control" id="harga" name="harga" disabled>
             </div>
 
             <!-- Tombol untuk mengirim form -->
@@ -154,9 +154,9 @@ ob_start();
 <script>
     $(document).ready(function() {
         $('#id_obat').select2();
-        $('#id_obat').on('change.select2', function (e) {
+        $('#id_obat').on('change.select2', function(e) {
             var selectedValuesArray = $(this).val();
-            
+
             // Calculate the sum
             var sum = 150000;
             if (selectedValuesArray) {
@@ -164,20 +164,17 @@ ob_start();
                     // Split the value and get the second part after "|"
                     var parts = selectedValuesArray[i].split("|");
                     if (parts.length === 2) {
-                    sum += parseFloat(parts[1]);
+                        sum += parseFloat(parts[1]);
                     }
                 }
             }
-            $('#harga').val(sum); 
+            $('#harga').val(sum);
         });
     });
 </script>
 <?php
 $content = ob_get_clean();
 ob_flush();
-
-// // JS Section
-// ob_start();
 ?>
 
 <?php include_once "../../../layouts/index.php"; ?>

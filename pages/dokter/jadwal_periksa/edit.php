@@ -24,6 +24,7 @@ $id = $url[count($url) - 1];
 
 $jadwal = query("SELECT * FROM jadwal_periksa WHERE id = $id")[0];
 
+
 // Input data to db
 if (isset($_POST["submit"])) {
     // Cek validasi
@@ -71,10 +72,16 @@ ob_flush();
 // Content Section
 ob_start();?>
 <div class="card">
+  
   <div class="card-header">
     <h3 class="card-title">Tambah Jadwal Periksa</h3>
   </div>
   <div class="card-body">
+
+  <?php
+    
+  ?>
+
     <form action="" id="tambahJadwal" method="POST">
       <input type="hidden" name="id_dokter" value="<?=$id_dokter?>">
       <div class="form-group">

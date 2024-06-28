@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= isset($title) ? $title : 'Default Title'; ?></title>
-  <?php include "plugin_header.php"?>
+  <?php include "plugin_header.php" ?>
   <!-- style bantuan -->
   <style>
     .grid-container {
@@ -21,12 +22,13 @@
     }
   </style>
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
-<!-- Preloader -->
-<div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="http://<?= $_SERVER['HTTP_HOST']?>/bk-poliklinik/dist/img/Logo.png" alt="AdminLTELogo" height="60" width="60">
-</div>
-  <?php include "header.php"?>
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="http://<?= $_SERVER['HTTP_HOST'] ?>/bk-poliklinik/dist/img/Logo.png" alt="AdminLTELogo" height="60" width="60">
+  </div>
+  <?php include "header.php" ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -47,16 +49,17 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-      <?= $content; ?>
+        <?= $content; ?>
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <?php include "footer.php"; ?>
-</div>
-<!-- ./wrapper -->
-<?php include "pluginsexport.php"; ?>
-<?= isset($js) ? $js : ''; ?>
+  </div>
+  <!-- ./wrapper -->
+  <?php include "pluginsexport.php"; ?>
+  <?= isset($js) ? $js : ''; ?>
 </body>
+
 </html>

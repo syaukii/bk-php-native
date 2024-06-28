@@ -15,7 +15,9 @@ $dataJadwal = $pdo->prepare("SELECT a.nama as nama_dokter,
 
                                     INNER JOIN jadwal_periksa as b
                                     ON a.id = b.id_dokter
-                                    WHERE a.id_poli = :poli_id");
+                                    WHERE a.id_poli = :poli_id
+                                    AND b.aktif = 'Y'
+                                    ");
 $dataJadwal->bindParam(':poli_id', $poliId);
 $dataJadwal->execute();
 

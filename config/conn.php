@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/url.php';
 $host = 'localhost';
-$dbname = 'poliklinik_bk';
+$dbname = 'bk_poliklinik';
 $username = 'root';
 $password = '';
 
@@ -55,14 +55,13 @@ function tambahJadwalPeriksa($data)
         $hari = mysqli_real_escape_string($conn, $data["hari"]);
         $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
         $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
-        $aktif = 'T';
 
         // Check if the jadwal periksa already exists for another dokter
         // Check as well if the time range is already taken by another dokter
-        $existing_data = mysqli_query($conn, "SELECT * FROM jadwal_periksa WHERE id_dokter != $id_dokter AND hari = '$hari'");
+        $existing_data = mysqli_query($conn, "SELECT * FROM jadwal_periksa WHERE hari = '$hari'");
         if (mysqli_num_rows($existing_data) > 0) {
             while ($row = mysqli_fetch_assoc($existing_data)) {
-                $query_existing = "SELECT * FROM jadwal_periksa WHERE id_dokter != $id_dokter AND hari = '$hari' AND jam_mulai <= '$jam_mulai' AND jam_selesai >= '$jam_mulai' OR jam_mulai <= '$jam_selesai' AND jam_selesai >= '$jam_selesai' OR jam_mulai >= '$jam_mulai' AND jam_selesai <= '$jam_selesai'";
+                $query_existing = "SELECT * FROM jadwal_periksa WHERE hari = '$hari' AND jam_mulai <= '$jam_mulai' AND jam_selesai >= '$jam_mulai' OR jam_mulai <= '$jam_selesai' AND jam_selesai >= '$jam_selesai' OR jam_mulai >= '$jam_mulai' AND jam_selesai <= '$jam_selesai'";
                 $checkJadwalPeriksa = mysqli_query($conn, $query_existing);
             }
             if (mysqli_num_rows($checkJadwalPeriksa) > 0) {
@@ -70,7 +69,7 @@ function tambahJadwalPeriksa($data)
             }
         }
 
-        $query = "INSERT INTO jadwal_periksa VALUES (null, '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai', '$aktif')";
+        $query = "INSERT INTO jadwal_periksa VALUES (null, '$id_dokter', '$hari', '$jam_mulai', '$jam_selesai')";
         if (mysqli_query($conn, $query)) {
             return mysqli_affected_rows($conn); // Return the number of affected rows
         } else {
@@ -91,7 +90,7 @@ function updateJadwalPeriksa($data, $id)
         $hari = mysqli_real_escape_string($conn, $data["hari"]);
         $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
         $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
-        $aktif = mysqli_real_escape_string($conn, $data["aktif"] );
+        $aktif = mysqli_real_escape_string($conn, $data["aktif"]);
 
         if ($aktif == 'Y') {
             // Make jadwal apapun yang sudah aktif menjadi tidak aktif
@@ -137,10 +136,10 @@ function TambahPeriksa($data)
 
 {
     global $conn;
-     // ambil data dari tiap elemen dalam form
-     $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
-     $catatan = htmlspecialchars($data["catatan"]);
-     
+    // ambil data dari tiap elemen dalam form
+    $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
+    $catatan = htmlspecialchars($data["catatan"]);
+
 
     // query insert data
     $query = "INSERT INTO periksa
@@ -154,14 +153,15 @@ function TambahPeriksa($data)
 }
 
 // ini belum selesai mau dilanjutin vander :v
-function TambahDetailPeriksa($data){
+function TambahDetailPeriksa($data)
+{
     global $conn;
-     // ambil data dari tiap elemen dalam form
-     $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
-     $catatan = htmlspecialchars($data["catatan"]);
-     
+    // ambil data dari tiap elemen dalam form
+    $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
+    $catatan = htmlspecialchars($data["catatan"]);
 
-      // query insert data
+
+    // query insert data
     $query = "INSERT INTO detail_periksa
                 VALUES
                 ('', '$tgl_periksa','$catatan');
@@ -184,7 +184,7 @@ function daftarPoli($data)
         $status = 0;
 
         $query = "INSERT INTO daftar_poli VALUES (NULL, :id_pasien, :id_jadwal, :keluhan, :no_antrian, :status_periksa)";
-        
+
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':id_pasien', $id_pasien);
         $stmt->bindParam(':id_jadwal', $id_jadwal);
@@ -192,7 +192,6 @@ function daftarPoli($data)
         $stmt->bindParam(':no_antrian', $no_antrian);
         $stmt->bindParam(':status_periksa', $status);
         if ($stmt->execute()) {
-            
             return $stmt->rowCount(); // Return the number of affected rows
         } else {
             // Handle the error
